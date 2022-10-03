@@ -130,6 +130,8 @@ function calMonth(y, m) {
             value = n.path[2].id
           }
         }
+      }else {
+        textInput[0].style.display = 'block'
       }
       e.stopPropagation()
     }

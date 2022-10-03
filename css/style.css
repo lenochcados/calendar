@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 html {
   height: 100%;
 }
@@ -144,3 +145,151 @@ td {
   color: #28283b;
   font-weight: bold;
 }
+=======
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+.container {
+  padding: 20px 0px 20px 0px;
+}
+.calendar {
+  width: 90%;
+  margin: auto;
+}
+
+.not-current {
+  color: #aaa;
+}
+
+th,
+td {
+  height: 48px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #dcdcff;
+  width: 14%;
+  position: relative;
+}
+
+.nowDay {
+  font-weight: bold;
+  background: #ccc;
+}
+
+/* .textInputPopup {
+  width: 20px;
+  height: 20px;
+  background: red;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -10px;
+} */
+
+.monthName {
+  text-align: center;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+#btnPrev {
+  float: left;
+  margin-bottom: 20px;
+}
+
+#btnPrev:before {
+  content: "\f104";
+  font-family: FontAwesome;
+  padding-right: 4px;
+}
+
+#btnNext {
+  float: right;
+  margin-bottom: 20px;
+}
+
+#btnNext:after {
+  content: "\f105";
+  font-family: FontAwesome;
+  padding-left: 4px;
+}
+
+.arrow{
+  display: none;
+  width: 12em;
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 0 16px #0004, 0 0 0;
+  border: 1px solid #aaa;
+  z-index: 1;
+  margin-left: 15px;
+}
+
+/* .arrow::after{
+	color: #666;
+  content: "Напишите здесь заметку";
+  font-family: Brown, Helvetica, sans-serif;
+  font-size: 14pt;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+.textInput{
+  width: 70%;
+  margin: 15px;
+  color: #666;
+  font-family: Brown, Helvetica, sans-serif;
+  font-size: 12pt;
+  border:#fff;
+}
+
+.arrow-textInputPopup{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 20px;
+  left: -15px;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.arrow-textInputPopup::after{
+	content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  transform: translateX(-50%) translateY(-50%) rotate(135deg);
+  left: 99%;
+  top: 50%;
+  box-shadow: 0 0 16px #0004;
+  border: 1px solid #aaa;
+}
+
+#btnPrev,
+#btnNext {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #c0c0c0;
+  cursor: pointer;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+#btnPrev:hover,
+#btnNext:hover {
+  color: #28283b;
+  font-weight: bold;
+}
+>>>>>>> Stashed changes

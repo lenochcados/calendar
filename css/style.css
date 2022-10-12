@@ -8,7 +8,7 @@ body {
   padding: 20px 0px 20px 0px;
 }
 .calendar {
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 
@@ -45,6 +45,16 @@ td {
   text-align: center;
   font-weight: bold;
   font-size: 26px;
+}
+
+select{
+  position: sticky;
+  left: 100%;
+  top: 6%;
+  width: 122px;
+  height: 32px;
+  border: 1px solid #dcdcff;
+  vertical-align: middle;
 }
 
 #btnPrev {

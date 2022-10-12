@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
+  <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <!-- JQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="/css/style.css">
+<!-- Knockout -->
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
+<!-- <script src='C:\Users\lenoc\Desktop\HTML\knockout-es5.min.js'></script> -->
 
 <head>
   <meta charset="UTF-8">
@@ -17,7 +23,12 @@
 <body>
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
   <div class="container">
-    <p id="p" class="monthName" ></p>
+    <p id="p" class="monthName"></p>
+    <select data-bind="value: selectedOptionValue">
+      <!-- ko foreach: monthsSelect.options -->
+      <option data-bind="attr: {value: $index}, text: $data"></option>
+      <!-- /ko -->
+    </select>
     <table class="calendar" id='calc'>
       <thead>
         <tr>
@@ -45,6 +56,6 @@
     <button id="btnNext" type="button" onclick="nextMonth(+1)">Следующий</button>
   </div>
 
-  <script src="/js/calendar1.js"> </script>
+  <script src="/js/calendarKnock.js"> </script>
 </body>
 </html>

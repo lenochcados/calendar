@@ -24,9 +24,14 @@
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
   <div class="container">
     <p id="p" class="monthName"></p>
-    <select data-bind="value: selectedOptionValue">
+    <select class = "months" data-bind="value: monthsSelect.selectedOptionValue">
       <!-- ko foreach: monthsSelect.options -->
-      <option data-bind="attr: {value: $index}, text: $data"></option>
+      <option class = "month" data-bind="attr: {value: $index}, text: $data"></option>
+      <!-- /ko -->
+    </select>
+    <select class = "years" data-bind=" value: yearsSelect.selectedOptionValue">
+      <!-- ko foreach: yearsSelect.options -->
+      <option class = "year" data-bind="attr: {value: $data}, text: $data"></option>
       <!-- /ko -->
     </select>
     <table class="calendar" id='calc'>

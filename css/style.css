@@ -47,15 +47,26 @@ td {
   font-size: 26px;
 }
 
-select{
+.months {
   position: sticky;
-  left: 100%;
+  left: 70%;
   top: 6%;
   width: 122px;
   height: 32px;
   border: 1px solid #dcdcff;
   vertical-align: middle;
 }
+
+.years {
+  position: sticky;
+  left: 700%;
+  top: 6%;
+  width: 122px;
+  height: 32px;
+  border: 1px solid #dcdcff;
+  vertical-align: middle;
+}
+
 
 #btnPrev {
   float: left;

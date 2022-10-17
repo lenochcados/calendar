@@ -17,6 +17,11 @@ body {
   color: #aaa;
 }
 
+td.hasNote{
+  box-shadow: inset 0px 0px 0px 3px #00d1d1;
+}
+
+
 th,
 td {
   height: 48px;

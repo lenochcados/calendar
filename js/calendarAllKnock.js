@@ -6,21 +6,26 @@ class Day {
     this.day = params.day;
     this.month = params.month;
     this.year = params.year;
-    //   this.note = params.note;
-    // }
-    // noteInput(f){
-    //   note = f.value;
-    // }
+    this.note = ko.observable(params.note);
+    this.currentMonth = params.class;
   }
 }
-
-// message.value
+// document.querySelector("select.months").addEventListener('change', () => {
+//   ServiceWorkerRegistration.pushManager.subscribe(options)
+//     .then((note) => {
+//       localStorage.setItem('note' + '_' + calendAr[].day + '.' + calendAr[].month + '.' + calendAr[].year, calendAr[].note());
+//     });
+// })
 
 m_cal = new function () {
 
   this.nowMonthStr = ko.observable("__")
   this.days = ko.observableArray([])
   this.selectedDate = ko.observable()
+
+  // this.note = function (e) {
+  //   $(".arrow").hide()
+  // }
 
   let myDate = new Date()
   let months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -49,7 +54,6 @@ m_cal = new function () {
   }
 
 
-
   Date.prototype.daysInMonth = function () {
     return 32 - new Date(this.getFullYear(), this.getMonth(), 32).getDate()
   }
@@ -59,7 +63,9 @@ m_cal = new function () {
     return --numberOfDay
   }
 
-  let value = ''
+
+
+  // let value = ''
 
   this.calculate = function (y, m) {
     calY = y
@@ -75,118 +81,74 @@ m_cal = new function () {
     let daysInMonth = new Date(y, m).daysInMonth()
     let count = 0
 
-
-    // let calculate = document.getElementsByClassName('calc')
-    // for (let row of calculate[0].rows) {
-    // removeAllChild(calc)
-    // }
-
     m_cal.nowMonthStr(months[m] + ' ' + y)
-
-
 
     for (i = 1; i < daysInMonth + 1; i++) {
       count++
-      let numWeek = (count % 7 == 0) ? Math.floor(count / 7) : Math.floor(count / 7) + 1
       //Первая строка календаря
       if (i == 1) {
         let k = lastDayOfLastMonth - firstDay + 1
         for (let j = 0; j < firstDay; j++) {
-
-          // let td = document.createElement('td')
-          // td.className = 'not-current'
-          // td.innerHTML = k
-          // calendar.append(td)
           calendAr.push(new Day({
             day: k,
             month: calM - 1,
-            year: calY
+            year: calY,
+            class: 'not-current',
           }))
           k++
           count++
+          // document.getElementsByClassName("textInput").addEventListener('change', () => {
+          //   ServiceWorkerRegistration.pushManager.subscribe(options)
+          //     .then((note) => {
+          //       localStorage.setItem('note' + '_' + calendAr[j].day + '.' + calendAr[j].month + '.' + calendAr[j].year, calendAr[j].note());
+          //     });
+          // })
         }
       }
 
       calendAr.push(new Day({
         day: i,
         month: calM,
-        year: calY
+        year: calY,
+        class: 'current',
       }))
+      // document.getElementsByClassName("textInput").addEventListener('change', () => {
+      //   ServiceWorkerRegistration.pushManager.subscribe(options)
+      //     .then((note) => {
+      //       localStorage.setItem('note' + '_' + calendAr[i].day + '.' + calendAr[i].month + '.' + calendAr[i].year, calendAr[i].note());
+      //     });
+      // })
 
       //Последняя строка календаря 
       if (i == lastDateOfMonth & numLastDay != 0) {
         let k = 1
         for (numLastDay; numLastDay < 7; numLastDay++) {
-          // let td = document.createElement('td')
-          // td.className = 'not-current'
-          // td.innerHTML = k
-          // calendar.append(td)
-          // k.toString()
           calendAr.push(new Day({
             day: k,
             month: calM + 1,
             year: calY,
+            class: 'not-current',
           }))
           k++
           count++
+          // document.getElementsByClassName("textInput").addEventListener('change', () => {
+          //   ServiceWorkerRegistration.pushManager.subscribe(options)
+          //     .then((note) => {
+          //     });
+          // })
         }
       }
-
-
-
-      //Заполнение календаря
-      // calendar = document.getElementById(numWeek)
-      // let td = document.createElement('td')
-      // td.innerHTML = i + "<div class = 'arrow' style='display: none;'><textarea class = 'textInput'  placeholder = 'Напишите здесь текст заметки' rows='4' cols='12' name='message'></textarea><div class = 'arrow-textInputPopup'></div></div>"
-      // td.className = 'current'
-      // // td.id = `${i}`
-      // if (calendar) calendar.append(td)
-
-
 
       if (i == nowDay && nowMonth == m && nowYear == y) {
         // td.className = "nowDay"
       }
 
-      // td.onclick = function tdClick(e) {
-      //   let textInput = td.getElementsByClassName('arrow')
-      //   $(".arrow").hide()
-      //   if (value != e.target.id) {
-      //     if (value != '') {
-      //       const a = document.getElementById(value)
-      //       a.getElementsByClassName('arrow')[0].style.display = 'none'
-      //       textInput[0].onclick = function (n) {
-      //         value = e.path[0].id
-      //         const target = n.target;
-      //         let textInputPopup = td.getElementsByClassName('textInput')
-      //         const its_text = target == textInputPopup[0];
-      //         if (!its_text) {
-      //           textInput[0].style.display = 'none'
-      //         }
-      //       }
-      //     }
-      //     value = e.path[0].id
-      //     textInput[0].style.display = 'block'
-
-      //     textInput[0].onclick = function (n) {
-      //       value = e.path[0].id
-      //       const target = n.target;
-      //       let textInputPopup = td.getElementsByClassName('textInput')
-      //       const its_text = target == textInputPopup[0];
-      //       if (!its_text) {
-      //         textInput[0].style.display = 'none'
-      //       } else {
-      //         value = n.path[2].id
-      //       }
-      //     }
-      //   } else {
-      //     textInput[0].style.display = 'block'
-      //   }
       // e.stopPropagation()
     }
 
     this.days([])
     this.days(listToMatrix(calendAr, 7))
+    console.log(this.days())
     calendAr = []
   }
 
@@ -222,6 +184,10 @@ m_cal = new function () {
   }
 
 
+  this.toLocalStorage = function (i, j) {
+    localStorage.setItem('note' + '_' + m_cal.days()[i][j].day + '.' + m_cal.days()[i][j].month + '.' + m_cal.days()[i][j].year, m_cal.days()[i][j].note());
+  }
+
   // Выпадашки
   let monthSelect = nowMonth
   let yearSelect = nowYear
@@ -248,10 +214,11 @@ m_cal = new function () {
     yearSelect = Number(e.target.value)
     m_cal.calculate(yearSelect, monthSelect)
   })
-
 }()
+
+
 
 ko.applyBindings(m_cal)
 
-
+// localStorage.clear();
 // ko.applyBindings(yearSelect,$(".years")[0])

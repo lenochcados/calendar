@@ -23,6 +23,9 @@
 <body>
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
   <div class="container">
+    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
+    <button class="btnNext" type="button" onclick="nextMonth(+1)"
+      1data-bind=" click: m_cal.remove(calc)">Следующий</button>
     <p class="monthName" data-bind="text:nowMonthStr"></p>
     <select class="months" data-bind="value: monthsSelect.selectedOptionValue">
       <!-- ko foreach: monthsSelect.options -->
@@ -43,14 +46,13 @@
 
       <tbody class='calc' data-bind="foreach: days">
         <tr data-bind="foreach: $data">
-          <td data-bind="click: m_cal.selectedDate">
-            <span data-bind="text: day"></span>
-            <!-- ko if: m_cal.selectedDate() === $data-->
+          <td data-bind="click: m_cal.selectedDate, css: {hasNote:note}">
+            <span data-bind="text: day, class: currentMonth"></span>
+            <!-- ko if: m_cal.selectedDate() === $data && currentMonth === 'current'-->
             <div class='arrow'>
-              <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12'
-                name='message'></textarea>
+              <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12' name='message'
+                data-bind="textInput:note, event:{change:m_cal.toLocalStorage($index)}"></textarea>
               <div class='arrow-textInputPopup'></div>
-              <!-- <input type="button" value="ОК" onClick="noteInput(this.message)"> -->
             </div>
             <!-- /ko -->
           </td>
@@ -59,9 +61,6 @@
 
     </table>
     <br>
-    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
-    <button class="btnNext" type="button" onclick="nextMonth(+1)"
-      1data-bind=" click: m_cal.remove(calc)">Следующий</button>
   </div>
 
   <script src="/js/calendarAllKnock.js"> </script>

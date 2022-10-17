@@ -10,6 +10,7 @@ body {
 .calendar {
   width: 100%;
   margin: auto;
+  margin-top: 0.6em;
 }
 
 .not-current {
@@ -68,30 +69,29 @@ td {
 }
 
 
-#btnPrev {
+.btnPrev {
   float: left;
   margin-bottom: 20px;
 }
 
-#btnPrev:before {
+.btnPrev:before {
   content: "\f104";
   font-family: FontAwesome;
   padding-right: 4px;
 }
 
-#btnNext {
+.btnNext {
   float: right;
   margin-bottom: 20px;
 }
 
-#btnNext:after {
+.btnNext:after {
   content: "\f105";
   font-family: FontAwesome;
   padding-left: 4px;
 }
 
 .arrow{
-  display: none;
   width: 12em;
   position: absolute;
   top: -10px;
@@ -147,8 +147,8 @@ td {
   border: 1px solid #aaa;
 }
 
-#btnPrev,
-#btnNext {
+.btnPrev,
+.btnNext {
   background: transparent;
   border: none;
   outline: none;
@@ -160,8 +160,8 @@ td {
   transition: all 0.3s ease;
 }
 
-#btnPrev:hover,
-#btnNext:hover {
+.btnPrev:hover,
+.btnNext:hover {
   color: #28283b;
   font-weight: bold;
 }

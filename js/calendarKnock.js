@@ -11,10 +11,6 @@ m_cal =new function () {
   let nowMonth = myDate.getMonth()
   let nowYear = myDate.getFullYear()
   let nowDay = myDate.getDate()
-  let numDayWeek = getDate(myDate.getDay())
-  let myDayWeek = days[numDayWeek]
-
-  let dayNotes = {}
 
   let calY
   let calM
@@ -168,6 +164,9 @@ m_cal =new function () {
   // Выпадашки
   let monthSelect = nowMonth
   let yearSelect = nowYear
+  
+  this.daysOfWeek=["ПН","ВТ","ПН","ПН","ПН","ПН","ПН"]
+
   this.monthsSelect = {
     options: ko.observable(["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
       "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"

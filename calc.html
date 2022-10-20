@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 <!-- Knockout -->
 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
-<!-- <script src='C:\Users\lenoc\Desktop\HTML\knockout-es5.min.js'></script> -->
+<script src='js/knockout-es5.min.js'></script>
 
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
   <title>Document</title>
 </head>
 
-<body data-bind="click: m_cal.onclick">
+<body data-bind="click: m_cal.clickBody">
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
   <div class="container">
     <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
@@ -46,9 +46,9 @@
 
       <tbody class='calc' data-bind="foreach: days">
         <tr data-bind="foreach: $data">
-          <td data-bind="click: m_cal.selectedDate, css: {hasNote:note}">
+          <td data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
             <span data-bind="text: day, class: currentMonth"></span>
-            <!-- ko if: m_cal.selectedDate() === $data && currentMonth === 'current'-->
+            <!-- ko if: m_cal.selectedDate === $data && (currentMonth === 'current' || currentMonth === 'nowDay')-->
             <div class='arrow'>
               <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12' name='message'
                 data-bind="textInput:note"></textarea>

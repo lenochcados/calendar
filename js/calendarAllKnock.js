@@ -6,8 +6,9 @@ class Day {
     this.day = params.day;
     this.month = params.month;
     this.year = params.year;
-    this.note = ko.observable(params.note);
-    this.note.subscribe(note =>
+    this.note = params.note;
+    ko.track(this)
+    ko.getObservable(this, 'note').subscribe(note =>
       localStorage.setItem('note' + '_' + this.day + '.' + this.month + '.' + this.year, note)
     );
     this.currentMonth = params.currentMonth;
@@ -15,7 +16,7 @@ class Day {
 
   getFromLocalStorage() {
     if (localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year)) {
-      this.note(localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year));
+      this.note = localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
     } else {
       localStorage.removeItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
     }
@@ -34,14 +35,13 @@ create = function (className, params) {
   return ret
 }
 
-
 m_cal = new function () {
-  this.nowMonthStr = ko.observable("__")
-  this.days = ko.observableArray([])
-  this.selectedDate = ko.observable()
+  this.nowMonthStr = ''
+  this.days = []
+  this.selectedDate={}
   // localStorage.clear();
-  this.onclick = function (e, a) {
-    if(a.target.localName === "body") this.selectedDate(null)
+  this.clickBody = function (e, a) {
+    if (a.target.localName === "body") this.selectedDate = null
   }
   let myDate = new Date()
   let months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -84,11 +84,11 @@ m_cal = new function () {
     calM = m
     let daysInNowMonth = new Date(y, m).daysInMonth()
     let daysInMonth
-    m_cal.nowMonthStr(months[m] + ' ' + y)
+    m_cal.nowMonthStr = months[m] + ' ' + y
     // Последний день недели в месяце 
     let className
     let month
-    let year = y
+    let year
     for (var j = -1; j <= 1; ++j) {
       month = m + j
       year = y
@@ -100,8 +100,12 @@ m_cal = new function () {
         year = y - 1;
       }
       daysInMonth = new Date(year, month).daysInMonth()
-      className = (j === 0) ? 'current' : 'not-current';
       for (i = 1; i < daysInMonth + 1; i++) {
+        if (i === nowDay && nowMonth === m && nowYear === y && j === 0) {
+          className = "nowDay"
+        } else if (j === 0) {
+          className = 'current'
+        } else className = 'not-current';
         let newDay = create(Day, {
           day: i,
           month: month,
@@ -126,16 +130,10 @@ m_cal = new function () {
       endSlice = daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    this.days([])
-    this.days(listToMatrix(calendAr, 7))
+    this.days = []
+    this.days = listToMatrix(calendAr, 7)
     calendAr = []
   }
-
-  // if (i == nowDay && nowMonth == m && nowYear == y) {
-  //   // td.className = "nowDay"
-  // }
-
-  // e.stopPropagation()
 
   // Переход к следующему или предыдущему месяцу
   nextMonth = function (dir) {
@@ -170,25 +168,27 @@ m_cal = new function () {
   this.daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
 
   this.monthsSelect = {
-    options: ko.observable(["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+    options: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
       "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-    ]),
-    selectedOptionValue: ko.observable(nowMonth),
+    ],
+    selectedOptionValue: nowMonth,
   }
+  // ko.track(this.monthsSelect)
   document.querySelector("select.months").addEventListener('change', function (e) {
     monthSelect = Number(e.target.value)
     m_cal.calculate(yearSelect, monthSelect)
   })
 
   this.yearsSelect = {
-    options: ko.observable(["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"]),
-    selectedOptionValue: ko.observable(nowYear),
+    options: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+    selectedOptionValue: nowYear,
   }
 
   document.querySelector("select.years").addEventListener('change', function (e) {
     yearSelect = Number(e.target.value)
     m_cal.calculate(yearSelect, monthSelect)
   })
-}()
+  ko.track(this)
+}
 
 ko.applyBindings(m_cal)

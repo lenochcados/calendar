@@ -34,7 +34,8 @@ td {
 
 .nowDay {
   font-weight: bold;
-  background: #ccc;
+  font-size: 20px;
+  /* box-shadow: inset 0px 0px 0px 3px #00ffc0; */
 }
 
 /* .textInputPopup {

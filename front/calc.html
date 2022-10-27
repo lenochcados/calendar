@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!-- Knockout -->
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
+<script src='js/knockout-es5.min.js'></script>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body data-bind="click: m_cal.clickBody">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+  <div class="container">
+    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
+    <button class="btnNext" type="button" onclick="nextMonth(+1)"
+      1data-bind=" click: m_cal.remove(calc)">Следующий</button>
+    <p class="monthName" data-bind="text:nowMonthStr"></p>
+    <select class="months" data-bind="value: monthsSelect.selectedOptionValue">
+      <!-- ko foreach: monthsSelect.options -->
+      <option class="month" data-bind="attr: {value: $index}, text: $data"></option>
+      <!-- /ko -->
+    </select>
+    <select class="years" data-bind=" value: yearsSelect.selectedOptionValue">
+      <!-- ko foreach: yearsSelect.options -->
+      <option class="year" data-bind="attr: {value: $data}, text: $data"></option>
+      <!-- /ko -->
+    </select>
+    <table class="calendar">
+      <thead>
+        <tr data-bind="foreach: daysOfWeek">
+          <th scope="col" data-bind="text: $data"></th>
+        </tr>
+      </thead>
+
+      <tbody class='calc' data-bind="foreach: days">
+        <tr data-bind="foreach: $data">
+          <td name = 'td' data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
+            <span data-bind="text: day, class: currentMonth"></span>
+            <!-- ko if: m_cal.selectedDate === $data && (currentMonth === 'current' || currentMonth === 'nowDay')-->
+            <div class='arrow'>
+              <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12' name='message'
+                data-bind="textInput:note, text: note"></textarea>
+              <div class='arrow-textInputPopup'></div>
+            </div>
+            <!-- /ko -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+
+  <script src="js/calendarAllKnock.js"> </script>
+</body>
+
+</html>

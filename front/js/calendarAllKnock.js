@@ -14,7 +14,7 @@ class Day {
         method: "notifyWhenChangesStop"
       }
     }).subscribe(note =>
-      fetch('http://127.0.0.1:3000/calc', {
+      fetch('http://localhost:3000/calc', {
         method: "POST",
         body: JSON.stringify({
           date: this.day + '.' + this.month + '.' + this.year,
@@ -47,26 +47,15 @@ create = function (className, params) {
   return ret
 }
 
-getFromDataBase = async function (date) {
-  let noteResponce
-  try {
-    noteResponce = await fetch(`http://127.0.0.1:3000/?date=${date}`)
-  } catch (e) {
-    console.log(e)
-  }
-  console.log(noteResponce)
+async function getFromDataBase(date, calendAr, firstDay) {
+  let noteResponce = await fetch(`/notes?date=${date}`)
   // for (i = 1; i < daysInMonth + 1; i++) {
   if (noteResponce.ok) {
-    let text = await noteResponce.text()
-    console.log('text', text)
-    for (j = 0; text.length - 1; j++) {
-      //     if (noteResponce[j].text().date === i + date) {
-      //       console.log(noteResponce)
-      //       calendar[i].note = await noteResponce[j].note.text()
-      //       // console.log(calendar[i])
-      //     }
-      //   }
-      allDays[text.data[j].date].note = text.data[j].note
+    let json = await noteResponce.json()
+    for (data of json) {
+      let day = Number(data.date.split('.')[0])
+      let noteDay = firstDay + day
+      calendAr[noteDay].note = data.notes
     }
   } else {
     console.log("Ошибка HTTP: " + noteResponce.status)
@@ -77,6 +66,7 @@ m_cal = new function () {
   this.nowMonthStr = ''
   this.days = []
   this.selectedDate = {}
+  let calendAr = []
 
   this.clickBody = function (e, a) {
     if (a.target.localName === "body") this.selectedDate = null
@@ -93,7 +83,6 @@ m_cal = new function () {
 
   let calY
   let calM
-  let calendAr = []
 
   function listToMatrix(list, elementsPerSubArray) {
     var matrix = [],
@@ -117,7 +106,7 @@ m_cal = new function () {
     return --numberOfDay
   }
 
-  this.calculate = function (y, m) {
+  this.calculate = async function (y, m) {
     calY = y
     calM = m
     let daysInNowMonth = new Date(y, m).daysInMonth()
@@ -167,7 +156,7 @@ m_cal = new function () {
       endSlice = daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year)
+    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []

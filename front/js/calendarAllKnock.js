@@ -14,7 +14,7 @@ class Day {
         method: "notifyWhenChangesStop"
       }
     }).subscribe(note =>
-      fetch('http://localhost:3000/calc', {
+      fetch('http://localhost:3001/calc', {
         method: "POST",
         body: JSON.stringify({
           date: this.day + '.' + this.month + '.' + this.year,
@@ -52,10 +52,12 @@ async function getFromDataBase(date, calendAr, firstDay) {
   // for (i = 1; i < daysInMonth + 1; i++) {
   if (noteResponce.ok) {
     let json = await noteResponce.json()
-    for (data of json) {
-      let day = Number(data.date.split('.')[0])
-      let noteDay = firstDay + day
-      calendAr[noteDay].note = data.notes
+    if (json.length !== 0) {
+      for (data of json) {
+        let day = Number(data.date.split('.')[0])
+        let noteDay = firstDay + day
+        calendAr[noteDay].note = data.notes
+      }
     }
   } else {
     console.log("Ошибка HTTP: " + noteResponce.status)

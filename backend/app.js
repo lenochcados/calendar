@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const path = require('path');
+const dirPath = path.join(__dirname, '..' ,'/front');
 
-app.use('/', express.static('../front'));
+app.use('/', express.static(dirPath));
 
 app.use(bodyParser.urlencoded({
   extended: false

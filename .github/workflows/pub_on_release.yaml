@@ -1,7 +1,7 @@
 on:
   release:
     types: [published]
-  env:
+  event:
     LOGIN: ${{ secrets.DOCKER_LOGIN }}
     NAME: ${{ secrets.DOCKER_NAME }}
   steps:

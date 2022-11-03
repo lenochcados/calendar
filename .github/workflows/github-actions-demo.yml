@@ -7,15 +7,15 @@ on:
 jobs:
   run_tests:
     runs-on: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-node@v16.18.0
-        with:
-          node-version: '16.18.0'
-          architecture: 'x64'
-      - name: Install Dockerfile
-        run: npm install -r Dockerfile
-      - name: Install express
-        run: npm install express --save
-      -name: Install SQLite
-        run: $ npm install sqlite3
+  steps:
+    - uses: actions/checkout@main
+    - uses: actions/setup-node@v16.18.0
+      with:
+        node-version: '16.18.0'
+        architecture: 'x64'
+    - name: Install Dockerfile
+      run: npm install -r Dockerfile
+    - name: Install express
+      run: npm install express --save
+    -name: Install SQLite
+      run: $ npm install sqlite3

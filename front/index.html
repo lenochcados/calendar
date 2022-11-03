@@ -17,16 +17,17 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Календарь</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 
 <body data-bind="click: m_cal.clickBody">
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
-  <div class="container">
-    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
+  <div class="container">    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
     <button class="btnNext" type="button" onclick="nextMonth(+1)"
       1data-bind=" click: m_cal.remove(calc)">Следующий</button>
     <p class="monthName" data-bind="text:nowMonthStr"></p>
+    <div class="container_select">
     <select class="months" data-bind="value: monthsSelect.selectedOptionValue">
       <!-- ko foreach: monthsSelect.options -->
       <option class="month" data-bind="attr: {value: $index}, text: $data"></option>
@@ -37,6 +38,7 @@
       <option class="year" data-bind="attr: {value: $data}, text: $data"></option>
       <!-- /ko -->
     </select>
+  </div>
     <table class="calendar">
       <thead>
         <tr data-bind="foreach: daysOfWeek">

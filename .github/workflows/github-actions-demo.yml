@@ -1,0 +1,31 @@
+name: Run tests on any Push event
+# Запуск при любом push евенте в любой ветке, за исключением релизных тэгов.
+# Они будт тестироваться перед сборкой
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      # Чекаутим код
+      - uses: actions/checkout@main
+      # Устанавливаем python нужной версии
+      - uses: actions/setup-node@v16.18.0
+        with:
+          node-version: '16.18.0'
+          architecture: 'x64'
+      - name: Install Dockerfile
+        # Устанавливаем зависимости
+        run: npm install -r Dockerfile
+      - name: Install express
+        run: npm install express --save
+      -name: Install SQLite
+        run: $ npm install sqlite3
+      # - name: Run tests
+      #   run: coverage run src/tests.py
+      # - name: Tests report
+      #   run: coverage report

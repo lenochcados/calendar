@@ -6,6 +6,7 @@ body {
 }
 .container {
   padding: 20px 0px 20px 0px;
+  width: 90%;
 }
 .calendar {
   width: 100%;
@@ -54,20 +55,26 @@ td {
   font-size: 26px;
 }
 
+.container_select{
+  display: flex;
+  justify-content: flex-end;
+}
+
 .months {
-  position: sticky;
+  /* position: sticky;
   left: 70%;
-  top: 6%;
+  top: 6%; */
   width: 122px;
   height: 32px;
   border: 1px solid #dcdcff;
   vertical-align: middle;
+  margin: 0 10px 0 0;
 }
 
 .years {
-  position: sticky;
+  /* position: sticky;
   left: 90%;
-  top: 6%;
+  top: 6%; */
   width: 122px;
   height: 32px;
   border: 1px solid #dcdcff;

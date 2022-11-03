@@ -1,6 +1,8 @@
 on:
   release:
     types: [published]
+  build_and_pub:
+    needs: [run_tests]
   env:
     LOGIN: ${{ secrets.DOCKER_LOGIN }}
     NAME: ${{ secrets.DOCKER_NAME }}

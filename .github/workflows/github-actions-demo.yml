@@ -1,4 +1,4 @@
-name: Run tests on any Push event
+name: Run tests on any event
 on:
   push:
     branches: [ main ]

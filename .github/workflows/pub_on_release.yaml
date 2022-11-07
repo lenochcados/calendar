@@ -1,8 +1,9 @@
 name: Publish on Docker Hub
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - [main]
 
 jobs:
   run_tests:
@@ -22,6 +23,8 @@ jobs:
     needs: [run_tests]
     runs-on: [ubuntu-22.04]
     env:
+      DOCKER_TOKEN: ${{ env.DOCKER_TOKEN }}
+    with:
       LOGIN: ${{ secrets.DOCKER_LOGIN }}
       NAME: ${{ secrets.DOCKER_NAME }}
     steps:

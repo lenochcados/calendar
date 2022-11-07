@@ -13,8 +13,8 @@ jobs:
         with:
           node-version: '16.18.0'
           architecture: 'x64'
-      - name: Install Dockerfile
-        run: npm install -r Dockerfile
+      # - name: Install Dockerfile
+      #   run: npm install -r Dockerfile
       - name: Install express
         run: npm install express --save
       - name: Install SQLite

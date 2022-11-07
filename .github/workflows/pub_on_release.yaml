@@ -1,5 +1,4 @@
 name: Publish on Docker Hub
-
 on:
   push:
     tags:

@@ -6,7 +6,7 @@ on:
 
 jobs:
   run_tests:
-    # runs-on: [ubuntu-latest]
+    runs-on: [ubuntu-22.04]
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@v3
@@ -20,7 +20,7 @@ jobs:
 
   build_and_pub:
     needs: [run_tests]
-    # runs-on: [ubuntu-latest]
+    runs-on: [ubuntu-22.04]
     env:
       LOGIN: ${{ secrets.DOCKER_LOGIN }}
       NAME: ${{ secrets.DOCKER_NAME }}

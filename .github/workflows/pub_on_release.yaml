@@ -1,4 +1,4 @@
-name: Publish on Docker Hub
+name: Push to Docker Hub
 
 on:
   release:

@@ -1,12 +1,11 @@
 name: Run tests on any event
-
 on:
   push:
     tags:
       - '*'
     branches:
       - '*'
-      
+
 jobs:
   run_tests:
     runs-on: [ubuntu-22.04]

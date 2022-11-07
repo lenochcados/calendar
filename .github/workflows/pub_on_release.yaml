@@ -27,9 +27,10 @@ jobs:
     env:
       LOGIN: ${{ secrets.DOCKER_LOGIN }}
       NAME: ${{ secrets.DOCKER_NAME }}
+      PWD: ${{ secrets.DOCKER_PWD }}
     steps:
       - name: Login to docker.io
-        run: echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+        run: echo ${{ env.PWD }} | docker login -u ${{ env.LOGIN }} --password-stdin
       - uses: actions/checkout@main
       - name: Build image
         run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11} -f Dockerfile .

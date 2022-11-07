@@ -1,3 +1,6 @@
+// m_cal={a:10}
+// class m_cal{a:11}
+// let date
 class Day {
   constructor(params) {
     this.day = params.day;
@@ -18,10 +21,17 @@ class Day {
           note: this.note
         }),
       })
+      // localStorage.setItem('note' + '_' + this.day + '.' + this.month + '.' + this.year, note)
     );
     this.currentMonth = params.currentMonth;
   }
 
+  //   if (localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year)) {
+  //     this.note = localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
+  //   } else {
+  //     localStorage.removeItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
+  // }
+  // notes(){
 }
 
 let allDays = {}
@@ -39,6 +49,7 @@ create = function (className, params) {
 
 async function getFromDataBase(date, calendAr, firstDay) {
   let noteResponce = await fetch(`/notes?date=${date}`)
+  // for (i = 1; i < daysInMonth + 1; i++) {
   if (noteResponce.ok) {
     let json = await noteResponce.json()
     if (json.length !== 0) {
@@ -208,5 +219,7 @@ m_cal = new function () {
   })
   ko.track(this)
 }
+
+// ko.options.deferUpdates = true
 
 ko.applyBindings(m_cal)

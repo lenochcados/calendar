@@ -1,0 +1,19 @@
+name: Run tests on any Push event
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  run_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.18.0'
+          architecture: 'x64'
+      - name: Install express
+        run: npm install express --save
+      - name: Install SQLite
+        run: npm install sqlite3

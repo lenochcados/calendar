@@ -5,23 +5,7 @@ on:
     types: [published]
 
 jobs:
-  run_tests:
-    runs-on: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.18.0'
-          architecture: 'x64'
-      # - name: Install Dockerfile
-      #   run: npm install -r Dockerfile
-      - name: Install express
-        run: npm install express --save
-      - name: Install SQLite
-        run: npm install sqlite3
-
   build_and_pub:
-    needs: [run_tests]
     runs-on: [ubuntu-latest]
     env:
       LOGIN: ${{ secrets.DOCKER_LOGIN }}

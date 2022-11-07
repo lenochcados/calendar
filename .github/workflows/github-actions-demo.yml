@@ -18,4 +18,4 @@ jobs:
       - name: Install express
         run: npm install express --save
       - name: Install SQLite
-        run: $ npm install sqlite3
+        run: npm install sqlite3

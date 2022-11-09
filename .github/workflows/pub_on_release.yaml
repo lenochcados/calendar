@@ -9,8 +9,9 @@ jobs:
   post:
     runs-on: [ubuntu-22.04]
     steps:
-    - name: to port
+    - name: ls
       run: ls
+    - name: to port
       run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
     - name: cd home
       run: cd home

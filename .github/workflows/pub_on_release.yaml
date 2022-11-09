@@ -30,10 +30,12 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-    - name: nginx reload
-      run: nginx -s reload
-    - name: cd
-      run: cd /~/
+    - name: to port
+      run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
+    - name: cd home
+      run: cd home
+    - name: copy file 
+      run: scp C:\Users\lenoc\Desktop\HTML\web\2022\myFirstProgect* root@vm-f7ba975b:/home
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

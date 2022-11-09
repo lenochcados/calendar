@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-22.04]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
 
   post:
     needs: [build]
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-22.04]
     steps:
     - name: to port
       run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251

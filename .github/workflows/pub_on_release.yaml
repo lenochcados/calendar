@@ -7,7 +7,6 @@ on:
 
 jobs:
   post:
-    needs: [build]
     runs-on: [ubuntu-22.04]
     steps:
     - name: to port
@@ -28,6 +27,7 @@ jobs:
       run: docker run -d -p 80:3000 lenochcados/calendar
 
   build:
+    needs: [post]
     runs-on: [ubuntu-22.04]
     steps:
       - name: Checkout

@@ -14,7 +14,7 @@ class Day {
         method: "notifyWhenChangesStop"
       }
     }).subscribe(note =>
-      fetch('http://185.93.111.135:25565/calc', {
+      fetch('http://http://myCalendar.com/calc', {
         method: "POST",
         body: JSON.stringify({
           date: this.day + '.' + this.month + '.' + this.year,

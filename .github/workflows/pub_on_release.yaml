@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    needs: [run_tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,6 +26,25 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_LOGIN }}/calendar:latest
+
+  post:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: nginx reload
+      run: nginx -s reload
+    - name: cd
+      run: cd /~/
+    - name: cd calendar
+      run: cd calendar/
+    # - name: Delete docker container
+    #   run: docker kill $(docker ps -q)
+    # - name: Delete docker image
+    #   run: docker image prune
+    - name: docker build
+      run: docker build . -t lenochcados/calendar
+    - name: docker run
+      run: docker run -d -p 80:3000 lenochcados/calendar
 
 
 # on:

@@ -37,7 +37,7 @@ jobs:
     # - name: cd home
     #   run: cd .. 
     - name: copy file 
-      run: scp -P 80 -r C:\Users\lenoc\Desktop\HTML\web\2022\myFirstProgect root@5.181.252.251:/home
+      run: cp -r C:\Users\lenoc\Desktop\HTML\web\2022\myFirstProgect /home/
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

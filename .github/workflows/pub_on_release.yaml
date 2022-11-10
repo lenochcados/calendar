@@ -30,12 +30,12 @@ jobs:
     needs: [build]
     runs-on: self-hosted
     steps:
-    - name: ls
-      run: ls
     - name: to port
       run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
-    - name: cd home
-      run: cd .. 
+    # - name: cd home
+    #   run: cd .. 
+    - name: ls
+      run: ls
     - name: copy file 
       run: scp -r \Users\lenoc\Desktop\HTML\web\2022\myFirstProgect\* root@vm-f7ba975b:/home
     - name: cd calendar

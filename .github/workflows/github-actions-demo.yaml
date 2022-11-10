@@ -10,7 +10,7 @@ on:
 
 jobs:
   run_tests:
-    runs-on: [ubuntu-22.04]
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@v3

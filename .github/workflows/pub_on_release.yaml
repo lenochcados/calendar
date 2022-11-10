@@ -30,14 +30,14 @@ jobs:
     needs: [build]
     runs-on: self-hosted
     steps:
-    - name: ls
-      run: ls
+    # - name: ls
+    #   run: ls
     - name: to port
       run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
-    # - name: cd home
-    #   run: cd .. 
+    - name: cd home
+      run: cd .. 
     - name: copy file 
-      run: cp -r C:\Users\lenoc\Desktop\HTML\web\2022\myFirstProgect /home/
+      run: cp -r C:/Users/lenoc/Desktop/HTML/web/2022/myFirstProgect/* /home/calendar
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

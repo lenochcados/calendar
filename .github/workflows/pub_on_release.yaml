@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: my_host
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
 
   post:
     needs: [build]
-    runs-on: my_host
+    runs-on: self-hosted
     steps:
     # - name: to port
     #   run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251

@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: my_host
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,16 +28,18 @@ jobs:
 
   post:
     needs: [build]
-    runs-on: self-hosted
+    runs-on: my_host
     steps:
-    - name: to port
-      run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
+    # - name: to port
+    #   run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
     # - name: cd home
     #   run: cd .. 
-    - name: ls
-      run: ls
+    # - name: ls
+    #   run: ls
+    - name: delete folder
+      run: rmdir calendar
     - name: copy file 
-      run: scp -r \Users\lenoc\Desktop\HTML\web\2022\myFirstProgect\* root@vm-f7ba975b:/home
+      run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

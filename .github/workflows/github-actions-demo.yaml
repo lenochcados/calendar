@@ -10,7 +10,7 @@ on:
 
 jobs:
   run_tests:
-    runs-on: self-hosted
+    runs-on: my_host
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@v3

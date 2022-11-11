@@ -27,7 +27,7 @@ jobs:
           tags: ${{ secrets.DOCKER_LOGIN }}/calendar:latest
 
   post:
-    # needs: [build]
+    needs: [build]
     runs-on: self-hosted
     steps:
     # - name: to port

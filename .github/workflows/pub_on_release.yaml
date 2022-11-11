@@ -6,18 +6,18 @@ on:
       - "main"
 
 jobs:
-  run_tests:
-    runs-on: self-hosted
-    steps:
-      # - uses: actions/checkout@main
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '16.18.0'
-      #     architecture: 'x64'
-      - name: Install express
-        run: npm install express --save
-      - name: Install SQLite
-        run: npm install sqlite3
+  # run_tests:
+  #   runs-on: self-hosted
+  #   steps:
+  #     # - uses: actions/checkout@main
+  #     # - uses: actions/setup-node@v3
+  #     #   with:
+  #     #     node-version: '16.18.0'
+  #     #     architecture: 'x64'
+  #     - name: Install express
+  #       run: npm install express --save
+  #     - name: Install SQLite
+  #       run: npm install sqlite3
   
   # build:
   #   needs: [run_tests]
@@ -36,7 +36,7 @@ jobs:
   #     #     push: true
   #     #     tags: ${{ secrets.DOCKER_LOGIN }}/calendar:latest
   post:
-    needs: [run_tests]
+    # needs: [run_tests]
     runs-on: self-hosted
     steps:
     - name: delete folder

@@ -30,8 +30,6 @@ jobs:
     needs: [build]
     runs-on: self-hosted
     steps:
-    # - name: to port
-    #   run: sudo ssh -i ~/.ssh/id_rsa 5.181.252.251
     - name: delete folder
       run: rmdir calendar
     - name: copy file 

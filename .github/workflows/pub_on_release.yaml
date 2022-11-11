@@ -39,8 +39,8 @@ jobs:
     # needs: [run_tests]
     runs-on: self-hosted
     steps:
-    - name: delete folder
-      run: rmdir calendar
+    # - name: delete folder
+    #   run: rmdir calendar
     - name: copy file 
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar

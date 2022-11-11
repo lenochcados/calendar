@@ -41,7 +41,7 @@ jobs:
     steps:
 
     - name: delete folder
-      run: rmdir calendar
+      run: rm -r calendar
     - name: copy file 
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar

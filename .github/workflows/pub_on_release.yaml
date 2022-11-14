@@ -39,10 +39,10 @@ jobs:
     # needs: [run_tests]
     runs-on: self-hosted
     steps:
-    - name: delete folder
-      run: rm -r calendar
+    # - name: delete folder
+    #   run: rm -r calendar
     - name: copy file 
-      run: git clone https://github.com/lenochcados/calendar.git
+      run: git clone https://github.com/lenochcados/calendar.git /actions-runner
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM node:16.18-alpine
 WORKDIR /calendar
 COPY package*.json ./
 # RUN npm install

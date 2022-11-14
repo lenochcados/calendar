@@ -1,4 +1,4 @@
-FROM node:16.18-alpine
+FROM node:16.18-bullseye-slim
 WORKDIR /calendar
 COPY package*.json ./
 RUN npm install

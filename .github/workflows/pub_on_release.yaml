@@ -60,23 +60,3 @@ jobs:
       run: docker build . -t lenochcados/calendar
     - name: docker run
       run: docker run -d -p 80:3000 lenochcados/calendar
-
-# on:
-#   push:
-#     tags:
-#       - '*'
-#     branches:
-#       - '*'
-# jobs:
-#   run_tests:
-#     runs-on: [ubuntu-22.04]
-#     steps:
-#       - uses: actions/checkout@main
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: '16.18.0'
-#           architecture: 'x64'
-#       - name: Install express
-#         run: npm install express --save
-#       - name: Install SQLite
-#         run: npm install sqlite3

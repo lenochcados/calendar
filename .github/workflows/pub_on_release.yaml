@@ -44,7 +44,7 @@ jobs:
     - name: copy file 
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar
-      run: cd calendar/
+      run: cd calendar/calendar/
     # - name: Delete docker container
     #   run: docker kill $(docker ps -q)
     # - name: Delete docker image

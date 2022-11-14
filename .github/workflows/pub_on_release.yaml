@@ -58,7 +58,7 @@ jobs:
     #     password: ${{ secrets.DOCKER_PWD}}  
     - uses: actions/checkout@v1
     - name: Login to DockerHub Registry
-      run: echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+      run: sudo echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     # - name: Docker clean
       # run: docker system prune
     - name: docker build

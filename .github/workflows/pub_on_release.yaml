@@ -42,7 +42,7 @@ jobs:
     # - name: delete folder
     #   run: rm -r calendar
     - name: copy file 
-      run: https://github.com/lenochcados/calendar.git
+      run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar
       run: cd calendar/
     # - name: Delete docker container

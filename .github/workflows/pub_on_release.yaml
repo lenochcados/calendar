@@ -49,7 +49,7 @@ jobs:
     #   run: docker kill $(docker ps -q)
     # - name: Delete docker image
     #   run: docker image prune
-    # - name: Login to Docker Hub
+    - name: Login to Docker Hub
       uses: sudo docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_LOGIN }}

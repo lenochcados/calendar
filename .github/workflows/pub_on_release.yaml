@@ -41,8 +41,6 @@ jobs:
     steps:
     - name: sudo
       run: sudo su
-      with: 
-        compPWD: ${{ secrets.compPWD }} 
     - name: delete folder
       run: rm -r calendar
     - name: copy file 

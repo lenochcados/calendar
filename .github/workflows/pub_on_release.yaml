@@ -61,6 +61,8 @@ jobs:
     #   run: echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     # - name: Docker clean
       # run: docker system prune
+    - name: cd calendar
+      run: cd calendar/
     - name: docker build
       run:  docker build . -t lenochcados/calendar
     - name: docker run

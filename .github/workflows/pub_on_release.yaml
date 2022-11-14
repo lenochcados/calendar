@@ -55,6 +55,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_LOGIN }}
         password: ${{ secrets.DOCKER_PWD}}  
+    - name: Docker clean
+      run: docker system prune
     - name: docker build
       run: docker build . -t lenochcados/calendar
     - name: docker run

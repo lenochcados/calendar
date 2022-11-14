@@ -41,8 +41,8 @@ jobs:
     steps:
     - name: sudo
       run: sudo su
-    - name: delete folder
-      run: rm -r calendar
+    # - name: delete folder
+    #   run: rm -r calendar
     - name: copy file 
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar

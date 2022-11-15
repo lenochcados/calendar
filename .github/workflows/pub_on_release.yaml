@@ -25,8 +25,8 @@ jobs:
   post:
     runs-on: self-hosted
     steps:
-    - name: delete folder
-      run: rm -r calendar
+    # - name: delete folder
+    #   run: rm -r calendar
     - name: copy file 
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar

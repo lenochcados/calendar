@@ -48,7 +48,7 @@ jobs:
     #   run: echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     # - name: Docker clean
       # run: docker system prune
-    # - name: docker build
-      # run:  docker build ~/actions-runner/_work/calendar/calendar/calendar -t lenochcados/calendar
+    - name: docker build
+      run:  docker build ~/actions-runner/_work/calendar/calendar/calendar -t lenochcados/calendar
     - name: docker run
-      run: docker run -p 80:3000 lenochcados/calendar
+      run: docker run - d -p 80:3000 alpine lenochcados/calendar

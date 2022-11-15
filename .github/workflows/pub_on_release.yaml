@@ -22,7 +22,6 @@ jobs:
   #     #     file: ./Dockerfile
   #     #     push: true
   #     #     tags: ${{ secrets.DOCKER_LOGIN }}/calendar:latest
-
   post:
     runs-on: self-hosted
     steps:
@@ -51,4 +50,4 @@ jobs:
     - name: docker build
       run:  docker build ~/actions-runner/_work/calendar/calendar/calendar -t lenochcados/calendar
     - name: docker run
-      run: docker run - d -p 80:3000 alpine lenochcados/calendar
+      run: docker run -d -p 80:3000 lenochcados/calendar

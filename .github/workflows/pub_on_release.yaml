@@ -31,10 +31,12 @@ jobs:
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar
       run: cd calendar/
-    # - name: Delete docker container
-    #   run: docker kill $(docker ps -q)
-    # - name: Delete docker image
-    #   run: docker image prune
+    - name: Delete docker container
+      run: docker kill $(docker ps -q)
+    - name: Delete docker image
+      run: docker image prune
+    - name: Docker clean
+      run: docker system prune -a
     # - name: sudo
     #   run: sudo su
     - name: Login to Docker Hub
@@ -45,8 +47,6 @@ jobs:
     # - uses: actions/checkout@v1
     # - name: Login to DockerHub Registry
     #   run: echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-    # - name: Docker clean
-      # run: docker system prune
     - name: docker build
       run:  docker build ~/actions-runner/_work/calendar/calendar/calendar -t lenochcados/calendar
     - name: docker run

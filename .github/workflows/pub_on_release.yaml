@@ -35,6 +35,7 @@ jobs:
   #     #     file: ./Dockerfile
   #     #     push: true
   #     #     tags: ${{ secrets.DOCKER_LOGIN }}/calendar:latest
+  
   post:
     # needs: [run_tests]
     runs-on: self-hosted

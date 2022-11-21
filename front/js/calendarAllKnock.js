@@ -67,11 +67,28 @@ async function getFromDataBase(date, calendAr, firstDay) {
 m_cal = new function () {
   this.nowMonthStr = ''
   this.days = []
+  this.daysNext = []
+  this.daysPrev = []
   this.selectedDate = {}
   let calendAr = []
 
   this.clickBody = function (e, a) {
     if (a.target.localName === "body") this.selectedDate = null
+  }
+
+  this.point = []
+
+  this.swipe = function (some, e) {
+    this.point.push(e.originalEvent.changedTouches[0].clientX)
+    if (this.point.length === 2) {
+      let dir = (this.point[1] - this.point[0] > 0) ? -1 : +1
+      nextMonth(dir)
+      this.point = []
+    }
+    // else{
+    //   nextMonth(-1)
+    //   nextMonth(+1)
+    // }
   }
 
   let myDate = new Date()
@@ -154,70 +171,70 @@ m_cal = new function () {
     let beginSlice = lastDayOfLastMonth - firstDay - 1
     let endSlice = beginSlice + daysInNowMonth + firstDay + 7 - finalDay
     if (firstDay == 6) {
-      beginSlice = 0
-      endSlice = daysInNowMonth + 6 - finalDay
+      beginSlice = lastDayOfLastMonth 
+      endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
     await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
+}
+
+// Переход к следующему или предыдущему месяцу
+nextMonth = function (dir) {
+  var nextM = calM + dir
+  var nextY = calY
+  if (nextM > 11) {
+    nextM = 0;
+    nextY = calY + 1
   }
-
-  // Переход к следующему или предыдущему месяцу
-  nextMonth = function (dir) {
-    var nextM = calM + 1 * dir
-    var nextY = calY
-    if (nextM > 11) {
-      nextM = 0;
-      nextY = calY + 1
-    }
-    if (nextM < 0) {
-      nextM = 11;
-      nextY = calY - 1
-    }
-    m_cal.calculate(nextY, nextM)
+  if (nextM < 0) {
+    nextM = 11;
+    nextY = calY - 1
   }
+  m_cal.calculate(nextY, nextM)
+}
 
-  window.onload = function () {
-    // Показать текущий месяц
-    m_cal.calculate(nowYear, nowMonth)
+window.onload = function () {
+  // Показать текущий месяц
+  m_cal.calculate(nowYear, nowMonth)
+}
+
+this.remove = function removeAllChild(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
+}
 
-  this.remove = function removeAllChild(parent) {
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild)
-    }
-  }
+// Выпадашки
+let monthSelect = nowMonth
+let yearSelect = nowYear
 
-  // Выпадашки
-  let monthSelect = nowMonth
-  let yearSelect = nowYear
+this.daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
 
-  this.daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
+this.monthsSelect = {
+  options: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+  ],
+  selectedOptionValue: nowMonth,
+}
+// ko.track(this.monthsSelect)
+document.querySelector("select.months").addEventListener('change', function (e) {
+  monthSelect = Number(e.target.value)
+  m_cal.calculate(yearSelect, monthSelect)
+})
 
-  this.monthsSelect = {
-    options: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-    ],
-    selectedOptionValue: nowMonth,
-  }
-  // ko.track(this.monthsSelect)
-  document.querySelector("select.months").addEventListener('change', function (e) {
-    monthSelect = Number(e.target.value)
-    m_cal.calculate(yearSelect, monthSelect)
-  })
+this.yearsSelect = {
+  options: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+  selectedOptionValue: nowYear,
+}
 
-  this.yearsSelect = {
-    options: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
-    selectedOptionValue: nowYear,
-  }
-
-  document.querySelector("select.years").addEventListener('change', function (e) {
-    yearSelect = Number(e.target.value)
-    m_cal.calculate(yearSelect, monthSelect)
-  })
-  ko.track(this)
+document.querySelector("select.years").addEventListener('change', function (e) {
+  yearSelect = Number(e.target.value)
+  m_cal.calculate(yearSelect, monthSelect)
+})
+ko.track(this)
 }
 
 // ko.options.deferUpdates = true

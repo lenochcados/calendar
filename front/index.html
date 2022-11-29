@@ -25,9 +25,8 @@
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
 
   <div class="container">
-    <button class="btnPrev" type="button" onclick="nextMonth(-1)">Предыдущий</button>
-    <button class="btnNext" type="button" onclick="nextMonth(+1)"
-      1data-bind=" click: m_cal.remove(calc)">Следующий</button>
+    <button class="btnPrev" type="button" onclick="preOrNextMonth(-1)">Предыдущий</button>
+    <button class="btnNext" type="button" onclick="preOrNextMonth(1)">Следующий</button>
     <p class="monthName" data-bind="text:nowMonthStr"></p>
     <div class="container_select">
       <select class="months" data-bind="value: monthsSelect.selectedOptionValue">
@@ -41,29 +40,36 @@
         <!-- /ko -->
       </select>
     </div>
-    <table class="calendar">
+    <table class="cap">
       <thead>
         <tr data-bind="foreach: daysOfWeek">
           <th scope="col" data-bind="text: $data"></th>
         </tr>
       </thead>
-
-      <tbody class='calc' data-bind="foreach: days">
-        <tr data-bind="foreach: $data">
-          <td name='td' data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
-            <span data-bind="text: day, class: currentMonth"></span>
-            <!-- ko if: m_cal.selectedDate === $data && (currentMonth === 'current' || currentMonth === 'nowDay')-->
-            <div class='arrow'>
-              <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12' name='message'
-                data-bind="textInput:note, text: note"></textarea>
-              <div class='arrow-textInputPopup'></div>
-            </div>
-            <!-- /ko -->
-          </td>
-        </tr>
-      </tbody>
     </table>
-    <br>
+    <div class="scrollWrapper">
+      <div class="scrollWrapper2">
+        <!-- ko foreach: m_cal.threeMonth -->
+        <table class="calendar" data-bind="css:'calendarNum'+$index(),
+    style: { left:(($index())*92+5)+'%'}">
+          <tbody class='calc' data-bind="foreach: $data">
+            <tr data-bind="foreach: $data">
+              <td name='td' data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
+                <span data-bind="text: day, class: currentMonth"></span>
+                <!-- ko if: m_cal.selectedDate === $data && (currentMonth === 'current' || currentMonth === 'nowDay')-->
+                <div class='arrow'>
+                  <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12'
+                    name='message' data-bind="textInput:note, text: note"></textarea>
+                  <div class='arrow-textInputPopup'></div>
+                </div>
+                <!-- /ko -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- /ko -->
+      </div>
+    </div data-bind="style:{leftScroll:initialScroll}">
   </div>
 
   <script src="js/calendarAllKnock.js"> </script>

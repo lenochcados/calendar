@@ -64,13 +64,16 @@ async function getFromDataBase(date, calendAr, firstDay) {
   }
 }
 
+let lastKnownScrollPosition = 0;
+let ticking = false;
+
 m_cal = new function () {
   this.nowMonthStr = ''
   this.days = []
-  this.daysNext = []
-  this.daysPrev = []
+  this.threeMonth = []
   this.selectedDate = {}
   let calendAr = []
+  ko.track(this.threeMonth)
 
   this.clickBody = function (e, a) {
     if (a.target.localName === "body") this.selectedDate = null
@@ -78,27 +81,25 @@ m_cal = new function () {
 
   this.point = []
 
-  this.swipe = function (some, e) {
-    this.point.push(e.originalEvent.changedTouches[0].clientX)
-    if (this.point.length === 2) {
-      let dir = (this.point[1] - this.point[0] > 0) ? -1 : +1
-      nextMonth(dir)
-      this.point = []
-    }
-    // else{
-    //   nextMonth(-1)
-    //   nextMonth(+1)
-    // }
-  }
+  // this.swipe = function (some, e) {
+  //   this.point.push(e.originalEvent.changedTouches[0].clientX)
+  //   if (this.point.length === 2) {
+  //     let dir = (this.point[1] - this.point[0] > 0) ? -1 : +1
+  //     preOrNextMonth(dir)
+  //     this.point = []
+  //   }
+  // }
 
   let myDate = new Date()
-  let months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+  this.months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
     "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
   ]
 
-  let nowMonth = myDate.getMonth()
+  this.nowMonth = myDate.getMonth()
   let nowYear = myDate.getFullYear()
   let nowDay = myDate.getDate()
+
+  this.curM = this.nowMonth - 1
 
   let calY
   let calM
@@ -125,12 +126,16 @@ m_cal = new function () {
     return --numberOfDay
   }
 
+  // async
+
   this.calculate = async function (y, m) {
     calY = y
     calM = m
+    // console.log('month', m)
     let daysInNowMonth = new Date(y, m).daysInMonth()
     let daysInMonth
-    m_cal.nowMonthStr = months[m] + ' ' + y
+
+    // months[m_cal.threeMonth[1][1][0].month] + ' ' + m_cal.threeMonth[1][1][0].year
     let className
     let month
     let year
@@ -146,7 +151,7 @@ m_cal = new function () {
       }
       daysInMonth = new Date(year, month).daysInMonth()
       for (i = 1; i < daysInMonth + 1; i++) {
-        if (i === nowDay && nowMonth === m && nowYear === y && j === 0) {
+        if (i === nowDay && m_cal.nowMonth === m && nowYear === y && j === 0) {
           className = "nowDay"
         } else if (j === 0) {
           className = 'current'
@@ -171,72 +176,198 @@ m_cal = new function () {
     let beginSlice = lastDayOfLastMonth - firstDay - 1
     let endSlice = beginSlice + daysInNowMonth + firstDay + 7 - finalDay
     if (firstDay == 6) {
-      beginSlice = lastDayOfLastMonth 
+      beginSlice = lastDayOfLastMonth
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
-}
-
-// Переход к следующему или предыдущему месяцу
-nextMonth = function (dir) {
-  var nextM = calM + dir
-  var nextY = calY
-  if (nextM > 11) {
-    nextM = 0;
-    nextY = calY + 1
+    // this.threeMonth.push(this.days)
+    // if (this.threeMonth.length < 3) {
+    //   dir = +1
+    //   nextMonth(dir)
+    // }else {m--}
+    return this.days
   }
-  if (nextM < 0) {
-    nextM = 11;
-    nextY = calY - 1
+
+  let scroll = $('.scrollWrapper')[0]
+
+  preOrNextMonth = async function (dir) {
+    // let month = m_cal.threeMonth[0][1][0].month
+    m_cal.curM = m_cal.curM + dir
+    scroll.scrollTo({
+      left: $(".calendarNum" + m_cal.curM)[0].offsetLeft - 19,
+      behavior: 'smooth'
+    });
+    m_cal.nowMonthStr = m_cal.months[m_cal.curM + 1] + ' ' + nowYear
+    return $(".calendarNum" + m_cal.curM)[0].offsetLeft - 19
   }
-  m_cal.calculate(nextY, nextM)
-}
 
-window.onload = function () {
-  // Показать текущий месяц
-  m_cal.calculate(nowYear, nowMonth)
-}
+  let startTime, startScroll, waitForScrollEvent;
+  scroll.addEventListener('touchstart', function () {
+    waitForScrollEvent = false;
+  });
 
-this.remove = function removeAllChild(parent) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild)
+  scroll.addEventListener('touchend', function () {
+    //   var deltaTime = new Date().getTime() - startTime;
+    //   var deltaScroll = Math.abs(startScroll - scroll.scrollLeft);
+    //   if (deltaScroll / deltaTime > 0.25 ||
+    //     scroll.scrollLeft < 0 ||
+    //     scroll.scrollLeft > scroll.weight) {
+    //     // will cause momentum scroll, wait for 'scroll' event
+    //     waitForScrollEvent = true;
+    //   }
+    //   // else {
+    //   // //   onScrollCompleted(); // assume no momentum scroll was initiated
+    //   // }
+    let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
+    let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
+    let dir = next < pre ? -1 : 1
+    lastKnownScrollPosition = preOrNextMonth(dir)
+    startTime = 0;
+
+  })
+
+// С таймером
+
+  // let timer;
+  // scroll.addEventListener('scroll', function (e) {
+  //   if (timer) {
+  //     clearTimeout(timer);
+  //   }
+  //   timer = setTimeout(function () {
+  //     $(this).trigger('scrollFinished');
+  //   }, 55)
+  // })
+
+  // scroll.addEventListener('scrollFinished', function () {
+  //   // will be called when momentum scroll is finished
+  //   let lastKnownScrollPosition = scroll.scrollLeft;
+  //   console.log(lastKnownScrollPosition)
+  //   let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
+  //   let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
+  //   let dir = next > pre ? -1 : 1
+  //   lastKnownScrollPosition = preOrNextMonth(dir)
+  // })
+
+  scroll.addEventListener('scroll', (e) => {
+    //   if (waitForScrollEvent) {
+        //   let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
+        //   let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
+        //   let dir = next > pre ? -1 : 1
+        //   lastKnownScrollPosition = preOrNextMonth(dir)
+        lastKnownScrollPosition = scroll.scrollLeft;
+    //   }
+    // let dir = (lastKnownScrollPosition > scroll.scrollLeft) ? -1 : 1
+    // preOrNextMonth(dir)
+
+      // console.log(lastKnownScrollPosition)
+      // if (!ticking) {
+      //   scroll.requestAnimationFrame(() => {
+      //     // console.log(lastKnownScrollPosition)
+      //     if()
+      //     preOrNextMonth(lastKnownScrollPosition);
+      //     ticking = false;
+      //   });
+      //   ticking = true;
+      // }
+  });
+
+
+  // Переход к следующему или предыдущему месяцу
+  nextMonth = function (dir) {
+    var nextM = calM + dir
+    var nextY = calY
+    if (nextM > 11) {
+      nextM = 0;
+      nextY = calY + 1
+    }
+    if (nextM < 0) {
+      nextM = 11;
+      nextY = calY - 1
+    }
+    return m_cal.calculate(nextY, nextM)
   }
+
+
+
+  start = async function () {
+    calM = 0
+    calY = nowYear
+    for (let i = 0; i <= 10; i++) {
+      if (i === this.nowMonth) {
+        let data = await m_cal.calculate(nowYear, m_cal.nowMonth)
+        m_cal.threeMonth.push(data)
+      } else {
+        let data = await nextMonth(+1)
+        m_cal.threeMonth.push(data)
+      }
+    }
+    // await m_cal.calculate(nowYear, nowMonth)
+    m_cal.nowMonthStr = m_cal.months[m_cal.nowMonth] + ' ' + nowYear
+    // console.log("start")
+  }
+
+  // initialScroll = function () {
+  //   $(".scrollWrapper")[0].scrollTo({
+  //     left: $(".calendarNum0").width() - 26,
+  //     behavior: 'smooth'
+  //   });
+  //   console.log("initialScroll")
+  // }
+
+  window.onload = async function () {
+    // Показать текущий месяц
+    await start()
+    $(".scrollWrapper")[0].scrollTo({
+      left: $(".calendarNum" + (m_cal.nowMonth - 1))[0].offsetLeft - 19,
+      // $(".calendarNum" + (m_cal.nowMonth-1)).offset().left - 153,
+      behavior: 'auto'
+    });
+    // console.log("onload")
+  }
+
+  this.remove = function removeAllChild(parent) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild)
+    }
+  }
+
+  // Выпадашки
+  let monthSelect = this.nowMonth
+  let yearSelect = nowYear
+
+  this.daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
+
+  this.monthsSelect = {
+    options: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ],
+    selectedOptionValue: this.curM + 1,
+  }
+  document.querySelector("select.months").addEventListener('change', function (e) {
+    monthSelect = Number(e.target.value)
+    this.curM = monthSelect
+    scroll.scrollTo({
+      left: $(".calendarNum" + (monthSelect - 1))[0].offsetLeft - 19,
+      behavior: 'smooth'
+    });
+    m_cal.nowMonthStr = m_cal.months[monthSelect] + ' ' + nowYear
+    // m_cal.calculate(yearSelect, monthSelect)
+  })
+
+  this.yearsSelect = {
+    options: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
+    selectedOptionValue: nowYear,
+  }
+
+  document.querySelector("select.years").addEventListener('change', function (e) {
+    yearSelect = Number(e.target.value)
+    m_cal.calculate(yearSelect, monthSelect)
+  })
+  ko.track(this)
 }
-
-// Выпадашки
-let monthSelect = nowMonth
-let yearSelect = nowYear
-
-this.daysOfWeek = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"]
-
-this.monthsSelect = {
-  options: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-  ],
-  selectedOptionValue: nowMonth,
-}
-// ko.track(this.monthsSelect)
-document.querySelector("select.months").addEventListener('change', function (e) {
-  monthSelect = Number(e.target.value)
-  m_cal.calculate(yearSelect, monthSelect)
-})
-
-this.yearsSelect = {
-  options: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"],
-  selectedOptionValue: nowYear,
-}
-
-document.querySelector("select.years").addEventListener('change', function (e) {
-  yearSelect = Number(e.target.value)
-  m_cal.calculate(yearSelect, monthSelect)
-})
-ko.track(this)
-}
-
-// ko.options.deferUpdates = true
 
 ko.applyBindings(m_cal)

@@ -1,24 +1,44 @@
 html {
   height: 100%;
 }
+
 body {
   min-height: 100%;
+  overflow: hidden;
 }
+
 .container {
   padding: 20px 0px 20px 0px;
   width: 90%;
 }
-.calendar {
-  width: 100%;
+
+.cap {
+  width: 90%;
+  position: relative;
+  /* left: 5%;  */
   margin: auto;
-  margin-top: 0.6em;
+  margin-top: 2em;
 }
 
+.calendar {
+  width: 90%;
+  /* margin-top: 3em; */
+  position: absolute;
+}
+.scrollWrapper{
+    height: 500px;
+    /* width: 112.5%; */
+    overflow: auto;
+}
+.scrollWrapper2{
+  position: relative;
+  /* width: 100%; */
+}
 .not-current {
   color: #aaa;
 }
 
-td.hasNote{
+td.hasNote {
   box-shadow: inset 0px 0px 0px 3px #00d1d1;
 }
 
@@ -43,9 +63,10 @@ td {
   font-size: 26px;
 }
 
-.container_select{
+.container_select {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 0.6em;
 }
 
 .months {
@@ -62,7 +83,6 @@ td {
   border: 1px solid #dcdcff;
   vertical-align: middle;
 }
-
 
 .btnPrev {
   float: left;
@@ -86,7 +106,7 @@ td {
   padding-left: 4px;
 }
 
-.arrow{
+.arrow {
   width: 12em;
   position: absolute;
   top: -10px;
@@ -99,16 +119,16 @@ td {
   margin-left: 15px;
 }
 
-.textInput{
+.textInput {
   width: 70%;
   margin: 15px;
   color: #666;
   font-family: Brown, Helvetica, sans-serif;
   font-size: 12pt;
-  border:#fff;
+  border: #fff;
 }
 
-.arrow-textInputPopup{
+.arrow-textInputPopup {
   width: 30px;
   height: 30px;
   position: absolute;
@@ -118,8 +138,8 @@ td {
   overflow: hidden;
 }
 
-.arrow-textInputPopup::after{
-	content: "";
+.arrow-textInputPopup::after {
+  content: "";
   position: absolute;
   width: 20px;
   height: 20px;
@@ -142,6 +162,13 @@ td {
   font-family: sans-serif;
   text-transform: uppercase;
   transition: all 0.3s ease;
+}
+
+@media (max-width: 500px) {
+  .btnPrev,
+  .btnNext {
+    display: none;
+  }
 }
 
 .btnPrev:hover,

@@ -16,7 +16,7 @@ jobs:
     - name: cd calendar
       run: cd calendar/
     - name: Delete docker container
-      run: docker kill $(docker ps -q)
+      run: docker container kill $(docker container ls -q)
     - name: Delete docker image
       run: docker image prune
     - name: Docker clean

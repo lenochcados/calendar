@@ -131,11 +131,10 @@ m_cal = new function () {
   this.calculate = async function (y, m) {
     calY = y
     calM = m
-    // console.log('month', m)
+
     let daysInNowMonth = new Date(y, m).daysInMonth()
     let daysInMonth
 
-    // months[m_cal.threeMonth[1][1][0].month] + ' ' + m_cal.threeMonth[1][1][0].year
     let className
     let month
     let year
@@ -180,15 +179,10 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
-    // this.threeMonth.push(this.days)
-    // if (this.threeMonth.length < 3) {
-    //   dir = +1
-    //   nextMonth(dir)
-    // }else {m--}
     return this.days
   }
 

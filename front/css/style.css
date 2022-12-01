@@ -11,7 +11,10 @@ body {
   padding: 20px 0px 20px 0px;
   width: 90%;
 }
-
+.scrollPosition{
+  text-align: left;
+  font-size: 14px;
+}
 .cap {
   width: 90%;
   position: relative;
@@ -25,14 +28,12 @@ body {
   /* margin-top: 3em; */
   position: absolute;
 }
-.scrollWrapper{
-    height: 500px;
-    /* width: 112.5%; */
-    overflow: auto;
+.scrollWrapper {
+  height: 320px;
+  overflow: auto;
 }
-.scrollWrapper2{
+.scrollWrapper2 {
   position: relative;
-  /* width: 100%; */
 }
 .not-current {
   color: #aaa;

@@ -104,6 +104,8 @@ m_cal = new function () {
   let calY
   let calM
 
+  this.nowScrollPosition = 0
+
   function listToMatrix(list, elementsPerSubArray) {
     var matrix = [],
       i, k;
@@ -179,118 +181,154 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
     return this.days
   }
 
-  let scroll = $('.scrollWrapper')[0]
+  let scrollWrapper = $('.scrollWrapper')[0]
+
+  let finger = true
+  let scrollIntoView = false
 
   preOrNextMonth = async function (dir) {
     // let month = m_cal.threeMonth[0][1][0].month
-    m_cal.curM = m_cal.curM + dir
-    scroll.scrollTo({
-      left: $(".calendarNum" + m_cal.curM)[0].offsetLeft - 19,
-      behavior: 'smooth'
+    m_cal.curM = m_cal.curM + dir;
+    $(".calendarNum" + m_cal.curM)[0].scrollIntoView({
+      inline: "center",
+      behavior: "smooth"
     });
-    m_cal.nowMonthStr = m_cal.months[m_cal.curM + 1] + ' ' + nowYear
-    return $(".calendarNum" + m_cal.curM)[0].offsetLeft - 19
+    m_cal.nowMonthStr = m_cal.months[m_cal.curM + 1] + ' ' + calY
+    console.log(m_cal.nowMonthStr)
+    finger = true
+    scrollIntoView = true
+    return $(".calendarNum" + m_cal.curM)[0].offsetLeft
   }
 
-  let startTime, startScroll, waitForScrollEvent;
-  scroll.addEventListener('touchstart', function () {
-    waitForScrollEvent = false;
-  });
+  // function scrollStop(callback, refresh = 66) {
+  //   // Make sure a valid callback was provided
+  //   if (!callback || typeof callback !== 'function') return;
+  //   // Setup scrolling variable
+  //   let isScrolling;
+  //   // Listen for scroll events
+  //   scrollWrapper.addEventListener('scroll', function (event) {
+  //     // Clear our timeout throughout the scroll
+  //     console.log('scroll')
+  //     window.clearTimeout(isScrolling);
+  //     // Set a timeout to run after scrolling ends
+  //     isScrolling = debounce(setTimeout(callback, refresh), 1500);
+  //   });
+  // }
 
-  scroll.addEventListener('touchend', function () {
-    //   var deltaTime = new Date().getTime() - startTime;
-    //   var deltaScroll = Math.abs(startScroll - scroll.scrollLeft);
-    //   if (deltaScroll / deltaTime > 0.25 ||
-    //     scroll.scrollLeft < 0 ||
-    //     scroll.scrollLeft > scroll.weight) {
-    //     // will cause momentum scroll, wait for 'scroll' event
-    //     waitForScrollEvent = true;
-    //   }
-    //   // else {
-    //   // //   onScrollCompleted(); // assume no momentum scroll was initiated
-    //   // }
-    let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
-    let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
-    let dir = next < pre ? -1 : 1
-    lastKnownScrollPosition = preOrNextMonth(dir)
-    startTime = 0;
+  const debounceScroll = debounce(() => {
+    if (!scrollIntoView) {
+      scrollToMonth(scrollWrapper.scrollLeft);
+    } else {
+      scrollIntoView = false
+    }
+  }, 300);
 
+  scrollWrapper.addEventListener('scroll', function () {
+    debounceScroll()
+    scrollMonth()
+    // if (!scrollIntoView) {
+    //   scrollToMonth(scrollWrapper.scrollLeft);
+    // } else {
+    //   scrollIntoView = false
+    // }
   })
 
-// С таймером
+  function debounce(func, wait, immediate) {
+    let timeout;
+    return function executedFunction() {
+      const context = this;
+      const args = arguments;
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
 
-  // let timer;
-  // scroll.addEventListener('scroll', function (e) {
-  //   if (timer) {
-  //     clearTimeout(timer);
+  // scrollStop(function () {
+  //   if (finger) {
+  //     scrollToMonth(scrollWrapper.scrollLeft)
+  //     finger = false;
   //   }
-  //   timer = setTimeout(function () {
-  //     $(this).trigger('scrollFinished');
-  //   }, 55)
-  // })
+  //   finger = true
+  // });
+  this.month = 0
 
-  // scroll.addEventListener('scrollFinished', function () {
-  //   // will be called when momentum scroll is finished
-  //   let lastKnownScrollPosition = scroll.scrollLeft;
-  //   console.log(lastKnownScrollPosition)
-  //   let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
-  //   let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
-  //   let dir = next > pre ? -1 : 1
-  //   lastKnownScrollPosition = preOrNextMonth(dir)
-  // })
+  scrollMonth = async function () {
+    m_cal.nowScrollPosition = scrollWrapper.scrollLeft
+    m_cal.month = parseInt(m_cal.nowScrollPosition / parseInt(window.innerWidth * Math.pow(0.9, 2)))
+    m_cal.nowMonthStr = m_cal.months[dateCounter(m_cal.month + 1)] + ' ' + m_cal.threeMonth[m_cal.month][1][0].year
+    if (m_cal.month >= m_cal.threeMonth.length - 3) {
+      for (let i = 1; i < 5; i++) {
+        let data = await nextMonth(+1)
+        m_cal.threeMonth.push(data)
+      }
+    }
+  }
 
-  scroll.addEventListener('scroll', (e) => {
-    //   if (waitForScrollEvent) {
-        //   let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
-        //   let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
-        //   let dir = next > pre ? -1 : 1
-        //   lastKnownScrollPosition = preOrNextMonth(dir)
-        lastKnownScrollPosition = scroll.scrollLeft;
-    //   }
-    // let dir = (lastKnownScrollPosition > scroll.scrollLeft) ? -1 : 1
-    // preOrNextMonth(dir)
+  scrollToMonth = function () {
+    finger = false
+    if (!scrollIntoView && !finger) {
+      calM = dateCounter(m_cal.month + 1)
+      // console.log("scrollToMonth ", month)
+      $(".calendarNum" + m_cal.month)[0].scrollIntoView({
+        inline: "center",
+        behavior: "smooth"
+      });
+      scrollIntoView = true
+    }
+  }
 
-      // console.log(lastKnownScrollPosition)
-      // if (!ticking) {
-      //   scroll.requestAnimationFrame(() => {
-      //     // console.log(lastKnownScrollPosition)
-      //     if()
-      //     preOrNextMonth(lastKnownScrollPosition);
-      //     ticking = false;
-      //   });
-      //   ticking = true;
-      // }
-  });
+  let flag = true
 
+  dateCounter = function (month) {
+    var monthNorm = month
+    // var yearNorm = calY
+    if (monthNorm > 11) {
+      monthNorm = monthNorm - 12;
+      if (flag) {
+        calY = calY + 1
+        flag = false
+      }
+    }
+    if (monthNorm < 0) {
+      monthNorm = 11;
+      calY = calY - 1
+    }
+    return monthNorm
+  }
 
   // Переход к следующему или предыдущему месяцу
   nextMonth = function (dir) {
-    var nextM = calM + dir
+    var nextM = dateCounter(calM + dir)
     var nextY = calY
-    if (nextM > 11) {
-      nextM = 0;
-      nextY = calY + 1
-    }
-    if (nextM < 0) {
-      nextM = 11;
-      nextY = calY - 1
-    }
+    // if (nextM > 11) {
+    //   nextM = 0;
+    //   nextY = calY + 1
+    // }
+    // if (nextM < 0) {
+    //   nextM = 11;
+    //   nextY = calY - 1
+    // }
+    // console.log(nextM, nextY)
     return m_cal.calculate(nextY, nextM)
   }
-
-
 
   start = async function () {
     calM = 0
     calY = nowYear
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i <= 15; i++) {
       if (i === this.nowMonth) {
         let data = await m_cal.calculate(nowYear, m_cal.nowMonth)
         m_cal.threeMonth.push(data)
@@ -299,28 +337,23 @@ m_cal = new function () {
         m_cal.threeMonth.push(data)
       }
     }
-    // await m_cal.calculate(nowYear, nowMonth)
     m_cal.nowMonthStr = m_cal.months[m_cal.nowMonth] + ' ' + nowYear
-    // console.log("start")
   }
-
-  // initialScroll = function () {
-  //   $(".scrollWrapper")[0].scrollTo({
-  //     left: $(".calendarNum0").width() - 26,
-  //     behavior: 'smooth'
-  //   });
-  //   console.log("initialScroll")
-  // }
 
   window.onload = async function () {
     // Показать текущий месяц
     await start()
-    $(".scrollWrapper")[0].scrollTo({
-      left: $(".calendarNum" + (m_cal.nowMonth - 1))[0].offsetLeft - 19,
-      // $(".calendarNum" + (m_cal.nowMonth-1)).offset().left - 153,
-      behavior: 'auto'
-    });
-    // console.log("onload")
+    scrollIntoView = true
+    $(".calendarNum" + (m_cal.nowMonth - 1))[0].scrollIntoView({
+      inline: "center",
+      behavior: "auto"
+    })
+
+    // scrollWrapper.scrollTo({
+    //   left: $(".calendarNum" + (m_cal.nowMonth - 1))[0].offsetLeft - 19,
+    //   // $(".calendarNum" + (m_cal.nowMonth-1)).offset().left - 153,
+    //   behavior: 'auto'
+    // });
   }
 
   this.remove = function removeAllChild(parent) {
@@ -344,11 +377,11 @@ m_cal = new function () {
   document.querySelector("select.months").addEventListener('change', function (e) {
     monthSelect = Number(e.target.value)
     this.curM = monthSelect
-    scroll.scrollTo({
-      left: $(".calendarNum" + (monthSelect - 1))[0].offsetLeft - 19,
-      behavior: 'smooth'
-    });
-    m_cal.nowMonthStr = m_cal.months[monthSelect] + ' ' + nowYear
+    $(".calendarNum" + (monthSelect - 1))[0].scrollIntoView({
+      inline: "center",
+      behavior: "smooth"
+    })
+    m_cal.nowMonthStr = m_cal.months[monthSelect] + ' ' + yearSelect
     // m_cal.calculate(yearSelect, monthSelect)
   })
 
@@ -365,3 +398,34 @@ m_cal = new function () {
 }
 
 ko.applyBindings(m_cal)
+
+
+// let startTime, startScroll, waitForScrollEvent;
+// scrollWrapper.addEventListener('touchstart', function () {
+//   waitForScrollEvent = false;
+// });
+
+// scrollWrapper.addEventListener('touchend', (e) => {
+//   waitForScrollEvent = true;
+//   let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
+//   let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
+//   // let dir = (lastKnownScrollPosition > scrollWrapper.scrollLeft) ? -1 : 1
+//   let dir = next < pre ? -1 : 1
+//   preOrNextMonth(dir)
+// })
+
+// // С таймером
+
+// let timer;
+// scrollWrapper.addEventListener('scroll', function (e) {
+//   if (timer) {
+//     clearTimeout(timer);
+//   }
+//   timer = setTimeout(function () {
+//     let next = lastKnownScrollPosition - $(".calendarNum" + (m_cal.curM - 1))[0].offsetLeft
+//     let pre = $(".calendarNum" + (m_cal.curM + 1))[0].offsetLeft - lastKnownScrollPosition
+//     // let dir = (lastKnownScrollPosition > scrollWrapper.scrollLeft) ? -1 : 1
+//     let dir = next < pre ? -1 : 1
+//     preOrNextMonth(dir)
+//   }, 255)
+// })

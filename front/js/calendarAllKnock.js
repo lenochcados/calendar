@@ -168,12 +168,10 @@ m_cal = new function () {
       beginSlice = lastDayOfLastMonth
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
-    // console.log(calendAr)
     calendAr = calendAr.slice(beginSlice, endSlice)
-    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
-    // console.log(this.days)
     calendAr = []
     return this.days
   }
@@ -248,7 +246,6 @@ m_cal = new function () {
   scrollToMonth = function () {
     if (m_cal.month >= 40) {
       scrollIntoView = false
-      // m_cal.month = m_cal.month-1
     }
     $(".calendarNum" + m_cal.month)[0].scrollIntoView({
       inline: 'center',

@@ -34,18 +34,18 @@ class Day {
   // notes(){
 }
 
-let allDays = {}
+// let allDays = {}
 
 
-create = function (nameClass, params) {
-  let dateName = params.day + '.' + params.month + '.' + params.year
-  if (allDays[dateName]) {
-    return allDays[dateName]
-  }
-  var ret = new nameClass(params)
-  allDays[dateName] = ret
-  return ret
-}
+// create = function (nameClass, params) {
+//   let dateName = params.day + '.' + params.month + '.' + params.year
+//   if (allDays[dateName]) {
+//     return allDays[dateName]
+//   }
+//   var ret = new nameClass(params)
+//   allDays[dateName] = ret
+//   return ret
+// }
 
 async function getFromDataBase(date, calendAr, firstDay) {
   let noteResponce = await fetch(`/notes?date=${date}`)
@@ -72,7 +72,7 @@ m_cal = new function () {
   this.threeMonth = []
   this.selectedDate = {}
   let calendAr = []
-  ko.track(this.threeMonth)
+  // ko.track(this.threeMonth)
 
   this.clickBody = function (e, a) {
     if (a.target.localName === "body") this.selectedDate = null
@@ -145,16 +145,16 @@ m_cal = new function () {
         } else {
           className = 'not-current'
         }
-        let newDay = create(Day, {
+        let newDay = new Day({
           day: i,
           month: month,
           year: year,
+          currentMonth: className
         })
-        newDay.currentMonth = className
+        // newDay.currentMonth = className
         calendAr.push(newDay)
       }
     }
-
     // Последний день предыдущего месяца
     let lastDayOfLastMonth = new Date(year, month - 1, 0).getDate()
     // Первый день недели в месяце
@@ -170,7 +170,7 @@ m_cal = new function () {
     }
     // console.log(calendAr)
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     // console.log(this.days)
@@ -180,12 +180,13 @@ m_cal = new function () {
 
   this.scrollWrapper = $('.scrollWrapper')[0]
 
-  let finger = window.innerWidth > 500 ? true : false
+  let finger = window.innerWidth > 500 ? false : true
+  let scrollIntoView = false
 
   preOrNextMonth = async function (dir) {
     m_cal.curM = m_cal.curM + dir
     if (m_cal.curM >= m_cal.threeMonth.length - 2) {
-      for (let i = 1; i < 5; i++) {
+      for (let i = 1; i < 2; i++) {
         let data = await nextMonth(+1)
         m_cal.threeMonth.push(data)
       }
@@ -200,51 +201,55 @@ m_cal = new function () {
   }
 
   const debounceScroll = debounce(() => {
-    $('.months').val(m_cal.threeMonth[m_cal.month][1][0].month)
-    $('.years').val(m_cal.threeMonth[m_cal.month][1][0].year)
-    scrollToMonth()
-  }, 400);
+    if (scrollIntoView) {
+      scrollToMonth()
+    } else {
+      scrollIntoView = true
+    }
+  }, 500);
 
   this.scrollWrapper.addEventListener('scroll', () => {
-    if (!finger) {
+    if (finger) {
       scrollMonth()
       debounceScroll()
-      // console.log('Есть')
-      // $('.months').val(m_cal.threeMonth[m_cal.month][1][0].month)
     }
   })
 
-  function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction() {
-      const context = this;
-      const args = arguments;
-      const later = function () {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
-    };
-  };
+  function debounce(f, t) {
+    return function (args) {
+      let previousCall = this.lastCall;
+      this.lastCall = Date.now();
+      if (previousCall && ((this.lastCall - previousCall) <= t)) {
+        clearTimeout(this.lastCallTimer);
+      }
+      this.lastCallTimer = setTimeout(() => f(args), t);
+    }
+  }
 
   this.month = 0
 
   scrollMonth = async function () {
     if (m_cal.month >= m_cal.threeMonth.length - 2) {
-      for (let i = 1; i < 5; i++) {
-        let data = await nextMonth(+1)
+      for (let i = 1; i < 2; i++) {
+        let data = await nextMonth(1)
         m_cal.threeMonth.push(data)
       }
     }
     m_cal.nowScrollPosition = m_cal.scrollWrapper.scrollLeft
-    m_cal.month = Math.floor(m_cal.nowScrollPosition / Math.floor(window.innerWidth * Math.pow(0.9, 2)))
+    m_cal.month = Math.floor(m_cal.nowScrollPosition / (window.innerWidth * 81 / 100))
+    if (m_cal.month >= 45) {
+      m_cal.month = m_cal.month - 1
+    }
     m_cal.nowMonthStr = m_cal.months[m_cal.threeMonth[m_cal.month][1][0].month] + ' ' + m_cal.threeMonth[m_cal.month][1][0].year
+    $('.months').val(m_cal.threeMonth[m_cal.month][1][0].month)
+    $('.years').val(m_cal.threeMonth[m_cal.month][1][0].year)
   }
 
   scrollToMonth = function () {
+    if (m_cal.month >= 40) {
+      scrollIntoView = false
+      // m_cal.month = m_cal.month-1
+    }
     $(".calendarNum" + m_cal.month)[0].scrollIntoView({
       inline: 'center',
       behavior: 'smooth',
@@ -279,7 +284,7 @@ m_cal = new function () {
         let data = await m_cal.calculate(nowYear, m_cal.nowMonth)
         m_cal.threeMonth.push(data)
       } else {
-        let data = await nextMonth(+1)
+        let data = await nextMonth(1)
         m_cal.threeMonth.push(data)
       }
     }
@@ -289,16 +294,11 @@ m_cal = new function () {
   window.onload = async function () {
     // Показать текущий месяц
     await start()
+    scrollIntoView = false
     $(".calendarNum" + (m_cal.nowMonth))[0].scrollIntoView({
       inline: "center",
       behavior: "auto"
     })
-  }
-
-  this.remove = function removeAllChild(parent) {
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild)
-    }
   }
 
   // Выпадашки
@@ -316,6 +316,7 @@ m_cal = new function () {
   document.querySelector("select.months").addEventListener('change', async function (e) {
     monthSelect = Number(e.target.value)
     m_cal.curM = monthSelect + 12 * (yearSelect - nowYear)
+    m_cal.month =  m_cal.curM
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)
@@ -339,6 +340,7 @@ m_cal = new function () {
   document.querySelector("select.years").addEventListener('change', async function (e) {
     yearSelect = Number(e.target.value)
     m_cal.curM = monthSelect + 12 * (yearSelect - nowYear)
+    m_cal.month =  m_cal.curM
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)
@@ -351,6 +353,7 @@ m_cal = new function () {
     })
     m_cal.nowMonthStr = m_cal.months[monthSelect] + ' ' + yearSelect
   })
+
   ko.track(this)
 }
 

@@ -57,7 +57,7 @@
             <tr data-bind="foreach: $data">
               <td name='td' data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
                 <span data-bind="text: day, class: currentMonth"></span>
-                <!-- ko if: m_cal.selectedDate === $data && (currentMonth === 'current' || currentMonth === 'nowDay')-->
+                <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current'-->
                 <div class='arrow'>
                   <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>

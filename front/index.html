@@ -51,15 +51,24 @@
     <div class="scrollWrapper">
       <div class="scrollWrapper2">
         <!-- ko foreach: m_cal.threeMonth -->
-        <table class="calendar" data-bind="css:'calendarNum'+$index(),
-    style: { left:(($index())*92+5)+'%'}">
+        <table class="calendar" data-bind="css:'calendarNum'+$index(), style: { left:(($index())*92+5)+'%'}">
           <tbody class='calc' data-bind="foreach: $data">
             <tr data-bind="foreach: $data">
-              <td name='td' data-bind="click:e=>{m_cal.selectedDate=$data}, css: {hasNote:note}">
+              <td name='td' data-bind="click:function(){m_cal.selectedDate=$data}, css: {hasNote:note}">
                 <span data-bind="text: day, class: currentMonth"></span>
-                <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current'-->
-                <div class='arrow'>
-                  <textarea class='textInput' placeholder='Напишите здесь текст заметки' rows='4' cols='12'
+                <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth > 500-->
+                <div class='arrow' data-bind="style: {left: ($index() == 6) ? '-130%' : '100%'}">
+                  <div class='date' data-bind="text: day + '.' + `${month + 1}` + '.' + year"></div>
+                  <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
+                    name='message' data-bind="textInput:note, text: note"></textarea>
+                  <div class='arrow-textInputPopup' data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}"></div>
+                </div>
+                <!-- /ko -->
+                <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
+                <div class='arrow' >
+                  <div class='date' data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year"></div>
+                  <img src="/front/css/icons8-close-48.png" alt="">
+                  <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
                   <div class='arrow-textInputPopup'></div>
                 </div>
@@ -71,9 +80,7 @@
         <!-- /ko -->
       </div>
     </div>
-    <!-- data-bind="style:{leftScroll:initialScroll}" -->
   </div>
-
   <script src="js/calendarAllKnock.js"> </script>
 </body>
 

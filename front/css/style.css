@@ -9,7 +9,7 @@ body {
 
 .container {
   padding: 20px 0px 20px 0px;
-  width: 90%;
+  width: 95%;
 }
 .scrollPosition {
   text-align: left;
@@ -31,7 +31,7 @@ body {
 
 .scrollWrapper {
   margin-top: -1px;
-  height: 320px;
+  height: 400px;
   overflow: auto;
 }
 
@@ -115,7 +115,6 @@ td {
   width: 12em;
   position: absolute;
   top: -10px;
-  left: 100%;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 0 16px #0004, 0 0 0;
@@ -138,7 +137,7 @@ td {
   height: 30px;
   position: absolute;
   top: 20px;
-  left: -15px;
+  /* left: -15px; */
   transform: translateX(-50%);
   overflow: hidden;
 }
@@ -150,10 +149,29 @@ td {
   height: 20px;
   background: #fff;
   transform: translateX(-50%) translateY(-50%) rotate(135deg);
-  left: 99%;
+  left: 100%;
   top: 50%;
   box-shadow: 0 0 16px #0004;
   border: 1px solid #aaa;
+}
+
+.arrow-textInputPopup-after::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  transform: translateX(-50%) translateY(-50%) rotate(135deg);
+  left: 2%;
+  top: 50%;
+  box-shadow: 0 0 16px #0004;
+  border: 1px solid #aaa;
+}
+
+.date {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .btnPrev,
@@ -174,10 +192,61 @@ td {
   .btnNext {
     display: none;
   }
+
+  .arrow {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 1rem;
+    left: 0%;
+    background: #fff;
+    border-radius: 0px;
+    box-shadow: 0 0 0px #0004, 0 0 0;
+    border: 0px solid #aaa;
+    z-index: 1;
+    margin-left: 0%;
+  }
+
+  .arrow-textInputPopup {
+    display: none;
+  }
+
+  .textInput {
+    width: 90%;
+    height: 90%;
+    margin: 15px;
+    color: #666;
+    font-family: Brown, Helvetica, sans-serif;
+    font-size: 12pt;
+    border: #fff;
+  }
+}
+
+img {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  display: inline;
+  height: 32px;
+  width: 32px;
+  /* margin-bottom: 13px; */
+}
+
+@media (min-width: 500px) {
+  img {
+    display: none;
+  }
+  .date {
+    display: none;
+  }
 }
 
 .btnPrev:hover,
 .btnNext:hover {
   color: #28283b;
   font-weight: bold;
+}
+
+#editor-container {
+  height: 375px;
 }

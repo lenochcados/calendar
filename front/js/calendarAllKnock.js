@@ -1,6 +1,7 @@
 // m_cal={a:10}
 // class m_cal{a:11}
 // let date
+
 class Day {
   constructor(params) {
     this.day = params.day;
@@ -72,11 +73,11 @@ m_cal = new function () {
   this.threeMonth = []
   this.selectedDate = {}
   let calendAr = []
-  // ko.track(this.threeMonth)
 
   this.clickBody = function (e, a) {
-    if (a.target.localName === "body") this.selectedDate = null
+    if (a.target.localName === "body" || a.target.localName === "img") this.selectedDate = null
   }
+
 
   this.point = []
 
@@ -298,6 +299,7 @@ m_cal = new function () {
     })
   }
 
+
   // Выпадашки
   let monthSelect = this.nowMonth
   let yearSelect = nowYear
@@ -313,7 +315,7 @@ m_cal = new function () {
   document.querySelector("select.months").addEventListener('change', async function (e) {
     monthSelect = Number(e.target.value)
     m_cal.curM = monthSelect + 12 * (yearSelect - nowYear)
-    m_cal.month =  m_cal.curM
+    m_cal.month = m_cal.curM
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)
@@ -337,7 +339,7 @@ m_cal = new function () {
   document.querySelector("select.years").addEventListener('change', async function (e) {
     yearSelect = Number(e.target.value)
     m_cal.curM = monthSelect + 12 * (yearSelect - nowYear)
-    m_cal.month =  m_cal.curM
+    m_cal.month = m_cal.curM
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)

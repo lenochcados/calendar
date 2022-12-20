@@ -114,7 +114,7 @@ td {
 .arrow {
   width: 12em;
   position: absolute;
-  top: -10px;
+  top: 1px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 0 16px #0004, 0 0 0;
@@ -136,10 +136,8 @@ td {
   width: 30px;
   height: 30px;
   position: absolute;
-  top: 20px;
-  /* left: -15px; */
+  top: 12px;
   transform: translateX(-50%);
-  overflow: hidden;
 }
 
 .arrow-textInputPopup::after {
@@ -151,7 +149,6 @@ td {
   transform: translateX(-50%) translateY(-50%) rotate(135deg);
   left: 100%;
   top: 50%;
-  box-shadow: 0 0 16px #0004;
   border: 1px solid #aaa;
 }
 

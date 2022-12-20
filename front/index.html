@@ -12,7 +12,8 @@
 <!-- Knockout -->
 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
 <script src='js/knockout-es5.min.js'></script>
-
+<!-- <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8"> -->
 
 <head>
   <meta charset="UTF-8">
@@ -58,7 +59,6 @@
                 <span data-bind="text: day, class: currentMonth"></span>
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth > 500-->
                 <div class='arrow' data-bind="style: {left: ($index() == 6) ? '-130%' : '100%'}">
-                  <div class='date' data-bind="text: day + '.' + `${month + 1}` + '.' + year"></div>
                   <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
                   <div class='arrow-textInputPopup' data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}"></div>

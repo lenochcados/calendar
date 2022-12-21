@@ -138,6 +138,7 @@ td {
   position: absolute;
   top: 12px;
   transform: translateX(-50%);
+  overflow: hidden;
 }
 
 .arrow-textInputPopup::after {
@@ -207,16 +208,16 @@ td {
   .arrow-textInputPopup {
     display: none;
   }
+}
 
-  .textInput {
-    width: 90%;
-    height: 90%;
-    margin: 15px;
-    color: #666;
-    font-family: Brown, Helvetica, sans-serif;
-    font-size: 12pt;
-    border: #fff;
-  }
+.__editor{
+  width: 90%;
+  height: 80%;
+  margin: 15px;
+  /* color: #666; */
+  /* font-family: Brown, Helvetica, sans-serif; */
+  font-size: 12pt;
+  border: #fff;
 }
 
 img {
@@ -226,16 +227,7 @@ img {
   display: inline;
   height: 32px;
   width: 32px;
-  /* margin-bottom: 13px; */
-}
-
-@media (min-width: 500px) {
-  img {
-    display: none;
-  }
-  .date {
-    display: none;
-  }
+  z-index: 2;
 }
 
 .btnPrev:hover,

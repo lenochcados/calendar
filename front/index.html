@@ -14,6 +14,7 @@
 <script src='js/knockout-es5.min.js'></script>
 <!-- <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8"> -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <head>
   <meta charset="UTF-8">
@@ -61,16 +62,18 @@
                 <div class='arrow' data-bind="style: {left: ($index() == 6) ? '-130%' : '100%'}">
                   <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
-                  <div class='arrow-textInputPopup' data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}"></div>
+                  <div class='arrow-textInputPopup'
+                    data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}">
+                  </div>
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' >
+                <div class='arrow'>
                   <div class='date' data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year"></div>
-                  <img src="/front/css/icons8-close-48.png" alt="">
-                  <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
+                  <textarea   data-tiny-editor="" contenteditable="true" class="__editor" 1class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
-                  <div class='arrow-textInputPopup'></div>
+                  <img src="/front/css/icons8-close-48.png" alt="">
+                  </div>
                 </div>
                 <!-- /ko -->
               </td>
@@ -81,6 +84,7 @@
       </div>
     </div>
   </div>
+  <script src="https://unpkg.com/tiny-editor/dist/bundle.js"></script>
   <script src="js/calendarAllKnock.js"> </script>
 </body>
 

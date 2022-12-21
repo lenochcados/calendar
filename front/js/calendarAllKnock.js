@@ -170,7 +170,7 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
@@ -218,7 +218,6 @@ m_cal = new function () {
       this.lastCall = Date.now();
       if (previousCall && ((this.lastCall - previousCall) <= t)) {
         clearTimeout(this.lastCallTimer);
-        console.log('Было')
       }
       this.lastCallTimer = setTimeout(() => f(args), t);
     }
@@ -252,7 +251,6 @@ m_cal = new function () {
       inline: 'center',
       behavior: 'smooth',
     });
-    console.log('Блядь №', m_cal.month)
   }
 
   dateCounter = function (month) {
@@ -313,8 +311,8 @@ m_cal = new function () {
   }
   document.querySelector("select.months").addEventListener('change', async function (e) {
     m_cal.monthSelect = Number(e.target.value)
-    m_cal.curM =  m_cal.monthSelect + 12 * ( m_cal.yearSelect - nowYear)
-    m_cal.month =  m_cal.monthSelect + 12 * ( m_cal.yearSelect - nowYear)
+    m_cal.curM = m_cal.monthSelect + 12 * (m_cal.yearSelect - nowYear)
+    m_cal.month = m_cal.monthSelect + 12 * (m_cal.yearSelect - nowYear)
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)
@@ -338,8 +336,8 @@ m_cal = new function () {
 
   document.querySelector("select.years").addEventListener('change', async function (e) {
     m_cal.yearSelect = Number(e.target.value)
-    m_cal.curM =  m_cal.monthSelect + 12 * ( m_cal.yearSelect - nowYear)
-    m_cal.month =  m_cal.monthSelect + 12 * ( m_cal.yearSelect - nowYear)
+    m_cal.curM = m_cal.monthSelect + 12 * (m_cal.yearSelect - nowYear)
+    m_cal.month = m_cal.monthSelect + 12 * (m_cal.yearSelect - nowYear)
     if (m_cal.curM > m_cal.threeMonth.length - 1) {
       for (let i = m_cal.threeMonth.length - 1; i < m_cal.curM + 3; i++) {
         let data = await nextMonth(+1)

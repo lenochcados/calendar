@@ -208,17 +208,19 @@ td {
   .arrow-textInputPopup {
     display: none;
   }
+
+  .textInput {
+    width: 90%;
+    height: 80%;
+    margin: 15px;
+    color: #666;
+    font-family: Brown, Helvetica, sans-serif;
+    font-size: 12pt;
+    border: #fff;
+  }
 }
 
-.__editor{
-  width: 90%;
-  height: 80%;
-  margin: 15px;
-  /* color: #666; */
-  /* font-family: Brown, Helvetica, sans-serif; */
-  font-size: 12pt;
-  border: #fff;
-}
+
 
 img {
   position: fixed;

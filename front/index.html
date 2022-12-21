@@ -14,7 +14,6 @@
 <script src='js/knockout-es5.min.js'></script>
 <!-- <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8"> -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <head>
   <meta charset="UTF-8">
@@ -22,6 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Календарь</title>
   <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 
 <body data-bind="click: m_cal.clickBody, event:{touchstart: m_cal.swipe, touchend: m_cal.swipe }">
@@ -70,9 +70,10 @@
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
                 <div class='arrow'>
                   <div class='date' data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year"></div>
-                  <textarea   data-tiny-editor="" contenteditable="true" class="__editor" 1class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
+                  <textarea 1data-tiny-editor="" 1contenteditable="true" 1class="__editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
                   <img src="/front/css/icons8-close-48.png" alt="">
+                  <div data-tiny-editor data-forecolor="no" data-remove-format="no"></div>
                   </div>
                 </div>
                 <!-- /ko -->

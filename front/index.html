@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Календарь</title>
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 </head>
 
 <body data-bind="click: m_cal.clickBody, event:{touchstart: m_cal.swipe, touchend: m_cal.swipe }">
@@ -68,13 +68,25 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow'>
-                  <div class='date' data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year"></div>
-                  <textarea 1data-tiny-editor="" 1contenteditable="true" 1class="__editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
+                <div class='arrow' data-bind="value: ClassicEditor
+                .create(document.querySelector('.textInput'))
+                .then( editor => {
+                  window.editor = editor;
+                  editor.model.document.on( 'change:data', ( evt, data ) => {
+                        $('textarea.textInput').html(editor.getData());
+                    }, {textInput:note, text:note} );
+                } )
+                .catch(error => {
+                  console.error(error);
+                });">
+                  <div class='date'
+                    data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1.5em'}">
+                  </div>
+                  <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
                   <img src="/front/css/icons8-close-48.png" alt="">
-                  <div data-tiny-editor data-forecolor="no" data-remove-format="no"></div>
-                  </div>
+                  <!-- <div id="editor"> -->
+                  <!-- </div> -->
                 </div>
                 <!-- /ko -->
               </td>
@@ -85,8 +97,9 @@
       </div>
     </div>
   </div>
-  <script src="https://unpkg.com/tiny-editor/dist/bundle.js"></script>
-  <script src="js/calendarAllKnock.js"> </script>
+
+
+  <script src="js/calendarAllKnock.js"></script>
 </body>
 
 </html>

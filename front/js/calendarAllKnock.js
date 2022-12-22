@@ -22,21 +22,17 @@ class Day {
           note: this.note
         }),
       })
-      // localStorage.setItem('note' + '_' + this.day + '.' + this.month + '.' + this.year, note)
     );
     this.currentMonth = params.currentMonth;
   }
-
-  //   if (localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year)) {
-  //     this.note = localStorage.getItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
-  //   } else {
-  //     localStorage.removeItem('note' + '_' + this.day + '.' + this.month + '.' + this.year);
-  // }
-  // notes(){
 }
 
 // let allDays = {}
-
+document
+  .querySelectorAll('[data-tiny-editor]')
+  .forEach(editor =>
+    editor.addEventListener('input', e => console.log(e.target.innerHTML))
+  );
 
 // create = function (nameClass, params) {
 //   let dateName = params.day + '.' + params.month + '.' + params.year
@@ -77,7 +73,6 @@ m_cal = new function () {
   this.clickBody = function (e, a) {
     if (a.target.localName === "body" || a.target.localName === "img") this.selectedDate = null
   }
-
 
   this.point = []
 
@@ -287,11 +282,7 @@ m_cal = new function () {
     }
     m_cal.nowMonthStr = m_cal.months[m_cal.nowMonth] + ' ' + nowYear
   }
-  document
-    .querySelectorAll('[data-tiny-editor]')
-    .forEach(editor =>
-      editor.addEventListener('input', e => console.log(e.target.innerHTML))
-    );
+
   window.onload = async function () {
     // Показать текущий месяц
     await start()
@@ -327,7 +318,6 @@ m_cal = new function () {
       inline: "center",
       behavior: "smooth"
     })
-    console.log('Куеуе')
     m_cal.nowMonthStr = m_cal.months[m_cal.threeMonth[m_cal.curM][1][0].month] + ' ' + m_cal.threeMonth[m_cal.curM][1][0].year
   })
 

@@ -68,25 +68,14 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' data-bind="value: ClassicEditor
-                .create(document.querySelector('.textInput'))
-                .then( editor => {
-                  window.editor = editor;
-                  editor.model.document.on( 'change:data', ( evt, data ) => {
-                        $('textarea.textInput').html(editor.getData());
-                    }, {textInput:note, text:note} );
-                } )
-                .catch(error => {
-                  console.error(error);
-                });">
+                <div class='arrow' data-bind="value: textEditor(day, month, year)">
                   <div class='date'
                     data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1.5em'}">
                   </div>
-                  <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
+                  <textarea id="editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
                     name='message' data-bind="textInput:note, text: note"></textarea>
-                  <img src="/front/css/icons8-close-48.png" alt="">
-                  <!-- <div id="editor"> -->
-                  <!-- </div> -->
+                  <img src="./css/icons8-close-48.png" alt="">
+                  <!-- <div id="editor"></div> -->
                 </div>
                 <!-- /ko -->
               </td>

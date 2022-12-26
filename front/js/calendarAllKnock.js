@@ -27,12 +27,52 @@ class Day {
   }
 }
 
+function debounce(f, t) {
+  return function (args) {
+    let previousCall = this.lastCall;
+    this.lastCall = Date.now();
+    if (previousCall && ((this.lastCall - previousCall) <= t)) {
+      clearTimeout(this.lastCallTimer);
+    }
+    this.lastCallTimer = setTimeout(() => f(args), t);
+  }
+}
+
+let textEditor = function (day, month, year) {
+  ClassicEditor
+    .create(document.querySelector('#editor'))
+    .then(editor => {
+      editor.setData(getFromDataBase())
+      window.editor = editor;
+      this.note = editor.getData()
+      ko.track(this)
+      // editor.model.document.set(textInput=>note)
+      editor.model.document.on('change:data', (evt, data) => {
+        this.note = editor.getData()
+        // ko.track(this)
+        // $('textarea.textInput').html(this.note);
+      });
+      ko.getObservable(this, 'note').extend({
+        rateLimit: {
+          timeout: 700,
+          method: "notifyWhenChangesStop"
+        }
+      }).subscribe(note =>
+        fetch('http://vm-67c21157.na4u.ru/calc', {
+          method: "POST",
+          body: JSON.stringify({
+            date: day + '.' + month + '.' + year,
+            note: this.note
+          }),
+        })
+      );
+    })
+  // .catch(error => {
+  //   console.error(error);
+  // })
+}
+
 // let allDays = {}
-document
-  .querySelectorAll('[data-tiny-editor]')
-  .forEach(editor =>
-    editor.addEventListener('input', e => console.log(e.target.innerHTML))
-  );
 
 // create = function (nameClass, params) {
 //   let dateName = params.day + '.' + params.month + '.' + params.year
@@ -206,17 +246,6 @@ m_cal = new function () {
       debounceScroll()
     }
   })
-
-  function debounce(f, t) {
-    return function (args) {
-      let previousCall = this.lastCall;
-      this.lastCall = Date.now();
-      if (previousCall && ((this.lastCall - previousCall) <= t)) {
-        clearTimeout(this.lastCallTimer);
-      }
-      this.lastCallTimer = setTimeout(() => f(args), t);
-    }
-  }
 
   this.month = 0
 

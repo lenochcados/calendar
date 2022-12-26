@@ -38,15 +38,15 @@ function debounce(f, t) {
   }
 }
 
-let textEditor = function (day, month, year) {
+let textEditor = function (day, month, year, note) {
   ClassicEditor
     .create(document.querySelector('#editor'))
     .then(editor => {
-      editor.setData(getFromDataBase())
+      // editor.model.document.set(textInput=>note)
+      if (note) editor.setData(note)
       window.editor = editor;
       this.note = editor.getData()
       ko.track(this)
-      // editor.model.document.set(textInput=>note)
       editor.model.document.on('change:data', (evt, data) => {
         this.note = editor.getData()
         // ko.track(this)

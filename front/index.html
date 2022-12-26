@@ -68,7 +68,7 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' data-bind="value: textEditor(day, month, year)">
+                <div class='arrow' data-bind="value: textEditor(day, month, year, note)">
                   <div class='date'
                     data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1.5em'}">
                   </div>

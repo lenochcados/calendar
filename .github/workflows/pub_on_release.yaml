@@ -15,13 +15,13 @@ jobs:
       run: git clone https://github.com/lenochcados/calendar.git
     - name: cd calendar
       run: cd calendar/
-    - name: Delete docker container
-      run: docker kill $(docker ps -q)
-    - name: Delete docker image
-      run: docker image prune
-    - name: Docker clean
-      run: docker system prune -a
-    - name: Login to Docker Hub
+    # - name: Delete docker container
+    #   run: docker kill $(docker ps -q)
+    # - name: Delete docker image
+    #   run: docker image prune
+    # - name: Docker clean
+    #   run: docker system prune -a
+    # - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_LOGIN }}

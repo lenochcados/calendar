@@ -38,41 +38,42 @@ function debounce(f, t) {
   }
 }
 
-let textEditor = function (day, month, year, note) {
-  // this.note
-  ClassicEditor
-    .create(document.querySelector('.textInput'))
-    .then(editor => {
-      // editor.model.document.set(textInput=>note)
-      if (note) editor.setData(note)
-      window.editor = editor;
-      this.note = editor.getData()
-      ko.track(this)
-      editor.model.document.on('change:data', (evt, data) => {
-        this.note = editor.getData()
-        // ko.track(this)
-        $('textarea.textInput').html(this.note);
-      });
-      ko.getObservable(this, 'note').extend({
-        rateLimit: {
-          timeout: 700,
-          method: "notifyWhenChangesStop"
-        }
-      }).subscribe(note =>
-        fetch('http://vm-67c21157.na4u.ru/calc', {
-          method: "POST",
-          body: JSON.stringify({
-            date: day + '.' + month + '.' + year,
-            note: this.note
-          }),
-        })
-      );
-    })
-    // return this.note
-  // .catch(error => {
-  //   console.error(error);
-  // })
-}
+// let textEditor = function (day, month, year, note) {
+//   // this.note
+//   ClassicEditor
+//     .create(document.querySelector('.textInput'))
+//     .then(editor => {
+//       console.log(day, month, year, note)
+//       // editor.model.document.set(textInput=>note)
+//       if (note) editor.setData(note)
+//       window.editor = editor;
+//       this.note = editor.getData()
+//       ko.track(this)
+//       editor.model.document.on('change:data', (evt, data) => {
+//         this.note = editor.getData()
+//         // ko.track(this)
+//         $('textarea.textInput').html(this.note);
+//       });
+//       ko.getObservable(this, 'note').extend({
+//         rateLimit: {
+//           timeout: 700,
+//           method: "notifyWhenChangesStop"
+//         }
+//       }).subscribe(note =>
+//         fetch('http://vm-67c21157.na4u.ru/calc', {
+//           method: "POST",
+//           body: JSON.stringify({
+//             date: day + '.' + month + '.' + year,
+//             note: this.note
+//           }),
+//         })
+//       );
+//     })
+//     // return this.note
+//   // .catch(error => {
+//   //   console.error(error);
+//   // })
+// }
 
 // let allDays = {}
 

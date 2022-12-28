@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Календарь</title>
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+  <script 1src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 </head>
 
 <body data-bind="click: m_cal.clickBody, event:{touchstart: m_cal.swipe, touchend: m_cal.swipe }">
@@ -68,9 +68,9 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' data-bind="value: textEditor(day, month, year, note)">
+                <div class='arrow' 1data-bind="value: textEditor(day, month, year, note)">
                   <div class='date'
-                    data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1.5em'}">
+                    data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, 1style: {'margin-bottom': '1.5em'}">
                   </div>
                   <textarea id="editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4'
                     cols='12' name='message' data-bind="textInput:note, text: note"></textarea>

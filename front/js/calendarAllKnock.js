@@ -207,7 +207,7 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []

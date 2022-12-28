@@ -39,8 +39,9 @@ function debounce(f, t) {
 }
 
 let textEditor = function (day, month, year, note) {
+  // this.note
   ClassicEditor
-    .create(document.querySelector('#editor'))
+    .create(document.querySelector('.textInput'))
     .then(editor => {
       // editor.model.document.set(textInput=>note)
       if (note) editor.setData(note)
@@ -50,7 +51,7 @@ let textEditor = function (day, month, year, note) {
       editor.model.document.on('change:data', (evt, data) => {
         this.note = editor.getData()
         // ko.track(this)
-        // $('textarea.textInput').html(this.note);
+        $('textarea.textInput').html(this.note);
       });
       ko.getObservable(this, 'note').extend({
         rateLimit: {
@@ -67,6 +68,7 @@ let textEditor = function (day, month, year, note) {
         })
       );
     })
+    // return this.note
   // .catch(error => {
   //   console.error(error);
   // })
@@ -205,7 +207,7 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    // await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []

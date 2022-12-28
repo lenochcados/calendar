@@ -12,8 +12,8 @@
 <!-- Knockout -->
 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
 <script src='js/knockout-es5.min.js'></script>
-<!-- <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8"> -->
+<script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
 
 <head>
   <meta charset="UTF-8">
@@ -61,7 +61,7 @@
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth > 500-->
                 <div class='arrow' data-bind="style: {left: ($index() == 6) ? '-130%' : '100%'}">
                   <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
-                    name='message' data-bind="textInput:note, text: note"></textarea>
+                    name='message' data-bind="textInput:note, textInput:note, text: note"></textarea>
                   <div class='arrow-textInputPopup'
                     data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}">
                   </div>
@@ -72,8 +72,8 @@
                   <div class='date'
                     data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1.5em'}">
                   </div>
-                  <textarea id="editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
-                    name='message' data-bind="textInput:note, text: note"></textarea>
+                  <textarea id="editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4'
+                    cols='12' name='message' data-bind="textInput:note, text: note"></textarea>
                   <img src="./css/icons8-close-48.png" alt="">
                   <!-- <div id="editor"></div> -->
                 </div>
@@ -86,7 +86,6 @@
       </div>
     </div>
   </div>
-
 
   <script src="js/calendarAllKnock.js"></script>
 </body>

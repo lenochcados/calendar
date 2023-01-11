@@ -2,27 +2,31 @@
 // class m_cal{a:11}
 // let date
 
+let DEBUG = true
+
 class Day {
   constructor(params) {
     this.day = params.day;
     this.month = params.month;
     this.year = params.year;
-    this.note = ko.observable(params.note);
-    ko.track(this, ['day', 'month', 'year'])
-    ko.getObservable(this, 'note').extend({
-      rateLimit: {
-        timeout: 700,
-        method: "notifyWhenChangesStop"
-      }
-    }).subscribe(note =>
-      fetch('http://vm-67c21157.na4u.ru/calc', {
-        method: "POST",
-        body: JSON.stringify({
-          date: this.day + '.' + this.month + '.' + this.year,
-          note: this.note
-        }),
-      })
-    );
+    this.note = params.note;
+    ko.track(this)
+    if (!DEBUG) {
+      ko.getObservable(this, 'note').extend({
+        rateLimit: {
+          timeout: 700,
+          method: "notifyWhenChangesStop"
+        }
+      }).subscribe(note =>
+        fetch('http://vm-67c21157.na4u.ru/calc', {
+          method: "POST",
+          body: JSON.stringify({
+            date: this.day + '.' + this.month + '.' + this.year,
+            note: this.note
+          }),
+        })
+      );
+    }
     this.currentMonth = params.currentMonth;
   }
 }
@@ -217,7 +221,9 @@ m_cal = new function () {
       endSlice = beginSlice + daysInNowMonth + 6 - finalDay
     }
     calendAr = calendAr.slice(beginSlice, endSlice)
-    await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    if (!DEBUG) {
+      await getFromDataBase('.' + calendAr[firstDay + 1].month + '.' + calendAr[firstDay + 1].year, calendAr, firstDay)
+    }
     this.days = []
     this.days = listToMatrix(calendAr, 7)
     calendAr = []
@@ -390,21 +396,22 @@ m_cal = new function () {
   ko.bindingHandlers['wysiwyg'].defaults = {
     // 'plugins': ['link'],
     // 'toolbar': 'undo redo | bold italic | bullist numlist | link',
-    'plugins': [
-      'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-      'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-      'powerpaste','fullscreen','formatpainter','insertdatetime','media'
-    ],
+    // 'plugins': [
+    //   'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+    //   'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+    //   'fullscreen', 'formatpainter', 'insertdatetime', 'media'
+    // ],
     'toolbar': 'formatpainter casechange blocks | bold italic | ' +
       'alignleft aligncenter alignright alignjustify | ' +
       'bullist numlist checklist outdent indent',
     'menubar': false,
-    'statusbar': false,
-    'setup': function (editor) {
-      editor.on('init', function (e) {
-        console.log('wysiwyg initialised');
-      });
-    }
+    'statusbar': false
+    // ,
+    // 'setup': function (editor) {
+    //   editor.on('init', function (e) {
+    //     console.log('wysiwyg initialised');
+    //   });
+    // }
   };
 }
 

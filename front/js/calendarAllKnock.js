@@ -2,7 +2,7 @@
 // class m_cal{a:11}
 // let date
 
-let DEBUG = true
+let DEBUG = false
 
 class Day {
   constructor(params) {

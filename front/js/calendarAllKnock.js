@@ -7,8 +7,8 @@ class Day {
     this.day = params.day;
     this.month = params.month;
     this.year = params.year;
-    this.note = params.note;
-    ko.track(this)
+    this.note = ko.observable(params.note);
+    ko.track(this, ['day', 'month', 'year'])
     ko.getObservable(this, 'note').extend({
       rateLimit: {
         timeout: 700,
@@ -38,14 +38,19 @@ function debounce(f, t) {
   }
 }
 
+
+
 // let textEditor = function (day, month, year, note) {
 //   // this.note
 //   ClassicEditor
 //     .create(document.querySelector('.textInput'))
 //     .then(editor => {
 //       console.log(day, month, year, note)
-//       // editor.model.document.set(textInput=>note)
-//       if (note) editor.setData(note)
+//       if (note) 
+//       {
+//         editor.setData(note)
+//         editor.set(note)
+//       }
 //       window.editor = editor;
 //       this.note = editor.getData()
 //       ko.track(this)
@@ -68,8 +73,9 @@ function debounce(f, t) {
 //           }),
 //         })
 //       );
+
 //     })
-//     // return this.note
+//   // return this.note
 //   // .catch(error => {
 //   //   console.error(error);
 //   // })
@@ -106,11 +112,14 @@ async function getFromDataBase(date, calendAr, firstDay) {
 let lastKnownScrollPosition = 0;
 let ticking = false;
 
+self.UserFullData = ko.observable();
+
 m_cal = new function () {
   this.nowMonthStr = ''
   this.days = []
   this.threeMonth = []
   this.selectedDate = {}
+  this.testNote = ""
   let calendAr = []
 
   this.clickBody = function (e, a) {
@@ -378,6 +387,25 @@ m_cal = new function () {
   })
 
   ko.track(this)
+  ko.bindingHandlers['wysiwyg'].defaults = {
+    // 'plugins': ['link'],
+    // 'toolbar': 'undo redo | bold italic | bullist numlist | link',
+    'plugins': [
+      'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+      'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+      'powerpaste','fullscreen','formatpainter','insertdatetime','media'
+    ],
+    'toolbar': 'formatpainter casechange blocks | bold italic | ' +
+      'alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist checklist outdent indent',
+    'menubar': false,
+    'statusbar': false,
+    'setup': function (editor) {
+      editor.on('init', function (e) {
+        console.log('wysiwyg initialised');
+      });
+    }
+  };
 }
 
 ko.applyBindings(m_cal)

@@ -6,14 +6,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+  crossorigin="anonymous"></script>
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <!-- Knockout -->
 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
 <script src='js/knockout-es5.min.js'></script>
-<script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+<!-- <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css"
+  media="screen" charset="utf-8"> -->
+<script src="https://cdn.tiny.cloud/1/3x2uzt7u6ztzlhl9yuj9adyee7yqhblyprx3ysohn5eik9jw/tinymce/6/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@2/dist/tinymce-jquery.min.js"></script>
+<script type="text/javascript" src="./tinymce-knockout-binding-master/src/wysiwyg.js"> </script>
 
 <head>
   <meta charset="UTF-8">
@@ -68,12 +74,13 @@
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' 1data-bind="value: textEditor(day, month, year, note)">
+                <div class='arrow' 1data-bind="textInput: note, value: textEditor(day, month, year, note)">
                   <div class='date'
-                    data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, 1style: {'margin-bottom': '1.5em'}">
+                    data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1em'}">
                   </div>
-                  <textarea id="editor" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4'
-                    cols='12' name='message' data-bind="textInput:note, text: note"></textarea>
+                  <!-- <textarea data-bind="wysiwyg: UserFullData"></textarea> -->
+                  <textarea id="tiny" class='textInput' placeholder='Напишите здесь текст заметки...' rows='4'
+                    cols='12' name='message' data-bind="wysiwyg: note"></textarea>
                   <img src="./css/icons8-close-48.png" alt="">
                   <!-- <div id="editor"></div> -->
                 </div>

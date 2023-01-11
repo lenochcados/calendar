@@ -112,7 +112,7 @@ async function getFromDataBase(date, calendAr, firstDay) {
 let lastKnownScrollPosition = 0;
 let ticking = false;
 
-self.UserFullData = ko.observable();
+// self.UserFullData = ko.observable();
 
 m_cal = new function () {
   this.nowMonthStr = ''

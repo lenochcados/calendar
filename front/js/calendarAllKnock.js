@@ -251,11 +251,12 @@ m_cal = new function () {
     m_cal.nowMonthStr = m_cal.months[m_cal.threeMonth[m_cal.curM][1][0].month] + ' ' + m_cal.threeMonth[m_cal.curM][1][0].year
   }
 
-  let nomber = 1
+  // let number = 0
 
   let debounceScroll = debounce(() => {
-    if (nomber % 2 === 0) scrollToMonth()
-    nomber++
+    // if (number % 2 === 0) 
+    scrollToMonth()
+    // number++
   }, 400);
 
   this.scrollWrapper.addEventListener('scroll', () => {

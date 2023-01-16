@@ -65,16 +65,16 @@
               <td name='td' data-bind="click:function(){m_cal.selectedDate=$data}, css: {hasNote:note}">
                 <span data-bind="text: day, class: currentMonth"></span>
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth > 500-->
-                <div class='arrow' data-bind="style: {left: ($index() == 6) ? '-130%' : '100%'}">
+                <div class='arrow' data-bind="style: {left: ($index()===4 || $index()===5 || $index()===6) ? '-350%' : '100%'}">
                   <textarea class='textInput' placeholder='Напишите здесь текст заметки...' rows='4' cols='12'
-                    name='message' data-bind="textInput:note, textInput:note, text: note"></textarea>
+                    name='message' data-bind="wysiwyg: ko.getObservable($data, 'note')"></textarea>
                   <div class='arrow-textInputPopup'
-                    data-bind="style: {left: ($index() === 6) ? '205px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index() === 6)}">
+                    data-bind="style: {left: ($index()===4 || $index()===5 || $index()===6) ? '491px' : '-15px'},css:{'arrow-textInputPopup-after' : ($index()===4 || $index()===5 || $index()===6)}">
                   </div>
                 </div>
                 <!-- /ko -->
                 <!-- ko if: m_cal.selectedDate === $data && currentMonth !== 'not-current' && window.innerWidth < 500-->
-                <div class='arrow' 1data-bind="textInput: note, value: textEditor(day, month, year, note)">
+                <div class='arrow'>
                   <div class='date'
                     data-bind="text: 'Заметка на' + ' '+ day + '.' + `${month + 1}` + '.' + year, style: {'margin-bottom': '1em'}">
                   </div>

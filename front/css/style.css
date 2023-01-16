@@ -31,7 +31,7 @@ body {
 
 .scrollWrapper {
   margin-top: -1px;
-  height: 400px;
+  height: 650px;
   overflow: auto;
 }
 
@@ -112,7 +112,7 @@ td {
 }
 
 .arrow {
-  width: 12em;
+  width: 30em;
   position: absolute;
   top: 1px;
   background: #fff;
@@ -160,7 +160,7 @@ td {
   height: 20px;
   background: #fff;
   transform: translateX(-50%) translateY(-50%) rotate(135deg);
-  left: 2%;
+  left: 0%;
   top: 50%;
   box-shadow: 0 0 16px #0004;
   border: 1px solid #aaa;

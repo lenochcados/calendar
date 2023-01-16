@@ -103,9 +103,13 @@ async function getFromDataBase(date, calendAr, firstDay) {
     let json = await noteResponce.json()
     if (json.length !== 0) {
       for (data of json) {
+        console.log(data)
         let day = Number(data.date.split('.')[0])
         let noteDay = firstDay + day
-        calendAr[noteDay].note = data.notes
+        console.log(noteDay)
+        if (data.notes) {
+          calendAr[noteDay].note = data.notes
+        }
       }
     }
   } else {
